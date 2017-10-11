@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>碰壁反弹</title>
+		<style type="text/css">
+			* {
+				margin: 0;
+				padding: 0;
+			}
+			
+			body {
+				background: lightblue;
+			}
+			
+			.wrap {
+				width: 500px;
+				height: 500px;
+				background: #000;
+				position: relative;
+				margin: 10% auto;
+				/*水平居中*/
+			}
+			
+			.wrap .box {
+				width: 50px;
+				height: 50px;
+				background: #fff;
+				border-radius: 50%;
+				position: absolute;
+			}
+		</style>
+	</head>
+
+	<body>
+		<!--边框-->
+		<div class="wrap">
+			<!--小球-->
+			<div class="box"></div>
+		</div>
+	</body>
+	<script type="text/javascript">
+		var wrap = document.querySelector(".wrap");
+		var box = document.querySelector(".wrap .box");
+		var speedX = 5;//横向速度
+		var speedY = 2;//纵向速度
+		// wrap 不带边线的宽度 减去 box 带边线的宽度 得到最大的运动宽度
+		var maxWidth = wrap.clientWidth - box.offsetWidth;
+		// wrap 不带边线的高度 减去 box 带边线的高度 得到最大的运动高度
+		var maxHeight = wrap.clientHeight - box.offsetHeight;
+		// 获取小球的距离(位置)
+		var top1 = 0; // Y
+		var left1 = 0; // X
+		// 小球移动的方法
+		function move() {
+			left1 += speedX;
+			top1 += speedY;
+			box.style.top = top1 + "px";
+			box.style.left = left1 + "px";
+			// 判断左右边界 如果 box 边缘到 wrap 左右边界 速度取反 改变方向
+			if(left1 <= 0 || left1 >= maxWidth) {
+				speedX *= -1;
+				// 判断上下边界 如果 box 边缘到 wrap 上下边界 速度取反 改变方向
+			} else if(top1 <= 0 || top1 >= maxHeight) {
+				speedY *= -1;
+			}
+		}
+		// 添加定时器 并调用移动的方法
+		var timer = setInterval(move, 1);
+	</script>
+
+</html>
