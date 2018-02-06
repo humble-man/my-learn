@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>链式运动</title>
+		<style type="text/css">
+			div {
+				width: 100px;
+				height: 100px;
+				margin: 10px;
+				background-color: red;
+				filter: aplha(opacity:50);
+				opacity:0.5;
+			}
+		</style>
+		<script type="text/javascript">		
+			function getstyle(obj,shuxing){
+				if(obj.currentStyle){
+					return obj.currentStyle[shuxing];
+				}else{
+					console.log(JSON.stringify(obj));
+					return getComputedStyle(obj,false)[shuxing];
+				}
+			}
+			function start(obj,shuxing,mubiao,fn) {
+				clearInterval(obj.timer);
+				obj.timer = setInterval(function() {
+					
+					if(shuxing == "opacity"){
+						var iCu = parseInt(parseFloat(getstyle(obj,''+shuxing))*100);
+					}else{
+						var iCu = parseInt(getstyle(obj,''+shuxing));
+					}
+					var isSpeed = (mubiao - iCu) / 8;
+					isSpeed = isSpeed>0? Math.ceil(isSpeed) : Math.floor(isSpeed);
+					if(iCu == mubiao){
+						clearInterval(obj.timer);
+						if(fn){
+							fn();
+						}
+					}else{
+						if(shuxing == "opacity"){
+						  obj.style.filter = 'alpha(opacity:'+(iCu + isSpeed)+')';
+						  obj.style.opacity = (iCu + isSpeed)/100;
+						}else{
+						  obj.style[shuxing] = iCu + isSpeed + 'px';
+						}
+					}
+				}, 30);
+			}
+			
+			
+			
+			window.onload = function(){
+				var oDiv = document.getElementById('div1');
+
+					oDiv.onmousemove = function(){
+						start(oDiv,'width',500,function(){
+							start(oDiv,'height',500,function(){
+								start(oDiv,'opacity',100);
+							});
+						})
+					}
+					oDiv.onmouseout = function(){
+						start(oDiv,'opacity',50,function(){
+							start(oDiv,'height',100,function(){
+								start(oDiv,'width',100);
+							});
+						})
+					}
+			}
+		</script>
+	</head>
+
+	<body>
+		<div id="div1"></div>
+	</body>
+
+</html>
