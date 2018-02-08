@@ -9,7 +9,7 @@
 				padding: 0;
 			}
 			#list{
-				width: 400px;
+				/*width: 400px;*/
 				height: 30px;
 				position: relative;
 				margin: 30px auto;
@@ -45,6 +45,9 @@
 			<li>菜单1</li>
 			<li>菜单2</li>
 			<li>菜单3</li>
+			<li>菜单4</li>
+			<li>菜单5</li>
+			<li>菜单6</li>
 			<li id="bg"></li>
 		</ul>
 		
@@ -54,6 +57,7 @@
 			var oUl = document.getElementById('list');
 			var	oLi = document.getElementsByTagName('li');
 			var oBg = document.getElementById('bg');
+			oUl.style.width = (oLi.length-1)*oLi[0].offsetWidth + 'px';
 			var isSpeed = 0;
 			var left = 0;
 			
@@ -86,7 +90,13 @@
 					//style.left 只能是整数  所以为了防止造成偏移量的偏差  用变量来储存速度
 					left+=isSpeed;
 					
-					obj.style.left = left + "px";
+//					执行完一次就清除定时器
+					if(Math.abs(isSpeed) < 1 && Math.abs(left - target) <1 ){
+						clearInterval(obj.itmer);
+						obj.style.left = target + 'px';
+					}else{
+						obj.style.left = left + "px";
+					}
 				},30)
 				
 			}
