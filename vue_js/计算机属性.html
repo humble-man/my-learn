@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>各类指令的学习</title>
+		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+		<style type="text/css">
+			
+		</style>
+	</head>
+	<body>
+		
+		<div id="test1" class="test1">
+			{{ name }} ----- 用计算机属性（computed）将内容倒置 -----  {{changecnt}}
+		</div>
+		
+		<div id="test2" class="test1">
+			{{ name }} ----- 用计算机属性（methods）将内容倒置 -----  {{changecnt()}}
+		</div>
+		
+	</body>
+	<script type="text/javascript">	
+		var test1 = new Vue({
+			el:'.test1',
+			data:{
+				name:'how can there be a future without working hard?'
+			},
+			computed:{
+				changecnt:function(){
+					return this.name.split('').reverse().join('')
+				}
+			}
+		})
+		
+		var test1 = new Vue({
+			el:'#test2',
+			data:{
+				name:'how can there be a future without working hard?'
+			},
+			methods:{
+				changecnt:function(){
+					return this.name.split('').reverse().join('')
+				}
+			}
+		})
+	</script>
+</html>

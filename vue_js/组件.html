@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>vue组件的使用</title>
+		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+		<style type="text/css">
+			
+		</style>
+	</head>
+	<body>
+		
+		
+		<!--全局注册-->
+		<div class="test_one">
+			<my-test>
+			</my-test>
+		</div>
+		
+		
+		<!--局部注册-->
+		<div class="test_two">
+			<my-test>
+				<child></child>
+			</my-test>
+		</div>
+		
+		
+		<!--prop的使用-->
+		<div class="test_prop">
+				<test-prop msg='hellow world'></test-prop>
+		</div>
+		
+		
+		<!--prop的使用2-->
+		<div class="test_prop2">
+				<test-prop2 msg-cnt='hellow world'></test-prop2>
+		</div>
+		
+		
+		<!--从父级接收数据-->
+		<div class="test_parent">
+			<input type="text" v-model="parentMsg" placeholder="请输入..."></input>
+			<br />
+			<test-prop v-bind:msg='parentMsg'></test-prop>
+		</div>
+		
+	</body>
+	<script type="text/javascript">	
+		Vue.component('my-test',{
+			template:'<div style="color:red;">全局注册测试</div>'
+		})
+		
+		var test_one = new Vue({
+			el:'.test_one'
+		})
+		
+		
+		var Child = {
+			template:'<div style="color:green;">局部注册测试</div>'
+		}
+		
+		var test_two = new Vue({
+			el:'.test_two',
+			components:{
+				'my-test':Child
+			}
+		})
+		
+		
+		Vue.component('test-prop',{
+			props:['msg'],
+			template:'<p style="color:blue;">{{msg}}</p>'
+		})
+		
+		var test_prop = new Vue({
+			el:'.test_prop'
+		})
+		
+		
+		Vue.component('test-prop2',{
+			props:['msgCnt'],
+			template:'<p style="color:blue;">{{msgCnt}}</p>'
+		})
+		
+		var test_prop2 = new Vue({
+			el:'.test_prop2'
+		})
+		
+		var test_parent = new Vue({
+			el:".test_parent",
+			data:{
+				parentMsg:''
+			}
+		})
+		
+		
+	</script>
+</html>
