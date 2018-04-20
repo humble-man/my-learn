@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>各类指令的学习</title>
+		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+
+	</head>
+
+	<body>
+
+		<!--v-model 指令的使用-->
+		<div class="test_model">
+			<input type="text" v-model="input_text" placeholder="请输入..." />
+			<p>输入的内容是：{{input_text}}</p>
+		</div>
+
+		<!--v-model 指令的使用  绑定复选框-->
+		<div class="test_model2">
+			<input id="test_btn" type="checkbox" v-model="checked" />
+			<label for="test_btn">当前的checked：{{checked}}</label>
+		</div>
+
+		<!--v-model 指令的使用  绑定多个复选框-->
+		<div class="test_model3">
+			<input id="test_btn1" type="checkbox" v-model="checkedname" value="按钮一" />
+			<label for="test_btn1">按钮一</label>
+			<input id="test_btn2" type="checkbox" v-model="checkedname" value="按钮二" />
+			<label for="test_btn2">按钮二</label>
+			<input id="test_btn3" type="checkbox" v-model="checkedname" value="按钮三" />
+			<label for="test_btn3">按钮三</label>
+
+			<p>当前选中了的按钮：{{checkedname}}</p>
+		</div>
+
+		<!--v-model 指令的使用  绑定多个单选按钮-->
+		<div class="test_model4">
+			<input id="radio1" type="radio" v-model="radioname" value="按钮一" />
+			<label for="radio1">按钮一</label>
+			<input id="radio2" type="radio" v-model="radioname" value="按钮二" />
+			<label for="radio2">按钮二</label>
+			<input id="radio3" type="radio" v-model="radioname" value="按钮三" />
+			<label for="radio3">按钮三</label>
+
+			<p>当前选中了的按钮：{{radioname}}</p>
+		</div>
+
+		<!--v-model 指令的使用  绑定选择框选项-->
+		<div class="test_model5">
+			<select v-model="selected">
+				<option disabled value="">请选择</option>
+				<option>A</option>
+				<option>B</option>
+				<option>C</option>
+				<option>D</option>
+			</select>
+
+			<p>当前选中了的按钮：{{ selected }}</p>
+		</div>
+		
+		
+		<!--v-model 指令的使用  绑定选择框多选-->
+		<div class="test_model6">
+			<select v-model="selected" multiple>
+				<option disabled value="">请选择</option>
+				<option>A</option>
+				<option>B</option>
+				<option>C</option>
+				<option>D</option>
+			</select>
+
+			<p>当前选中了的按钮：{{ selected }}</p>
+		</div>
+		
+		
+		
+		<!--v-model 和 v-for 指令的使用  绑定选择框多选-->
+		<div class="test_model7">
+			<select v-model="selected">
+				<option v-for="li in list" v-model:value="li.value">{{li.text}}</option>
+			</select>
+
+			<p>当前选中了的按钮：{{ selected }}</p>
+		</div>
+		
+		
+		<!--v-model 中 .lazy 指令的使用  绑定选择框多选-->
+		<div class="test_model8">
+			<input type="text" placeholder="请输入..." v-model.lazy="msg"/>
+			<p>当前内容：{{ msg }}</p>
+		</div>
+		
+		
+		
+		<!--v-model 中 .number 指令的使用  绑定选择框多选-->
+		<div class="test_model9">
+			<input type="number" placeholder="请输入..." v-model.number="msg"/>
+			<p>当前内容：{{ msg }}</p>
+		</div>
+		
+		
+		<!--v-model 中 .trim 指令的使用  绑定选择框多选-->
+		<div class="test_model10">
+			<input type="text" placeholder="请输入..." v-model.trim="msg"/>
+			<p>当前内容：{{ msg }}</p>
+		</div>
+
+	</body>
+	<script type="text/javascript">
+		var test_model = new Vue({
+			el: '.test_model',
+			data: {
+				input_text: '',
+			}
+		})
+
+		var test_model2 = new Vue({
+			el: '.test_model2',
+			data: {
+				checked: false
+			}
+		})
+
+		var test_model3 = new Vue({
+			el: '.test_model3',
+			data: {
+				checkedname: []
+			}
+		})
+
+		var test_model4 = new Vue({
+			el: '.test_model4',
+			data: {
+				radioname: []
+			}
+		})
+		
+		
+		var test_model5 = new Vue({
+			el: '.test_model5',
+			data: {
+				selected: ""
+			}
+		})
+		
+		
+		var test_model6 = new Vue({
+			el: '.test_model6',
+			data: {
+				selected: []
+			}
+		})
+		
+		
+		
+		var test_model7 = new Vue({
+			el: '.test_model7',
+			data: {
+				selected:'One',
+				list:[
+					{text:'One',value:'One'},
+					{text:'Two',value:'Two'},
+					{text:'Three',value:'Three'}
+				]
+			}
+		})
+		
+		
+		var test_model8 = new Vue({
+			el:'.test_model8',
+			data:{
+				msg:''
+			}
+		})
+		
+		
+		var test_model9 = new Vue({
+			el:'.test_model9',
+			data:{
+				msg:''
+			}
+		})
+		
+		
+		var test_model10 = new Vue({
+			el:'.test_model10',
+			data:{
+				msg:''
+			}
+		})
+	</script>
+
+</html>
