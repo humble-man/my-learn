@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title><style type="text/css">
+			*{
+				margin: 0;
+				padding: 0;
+			}
+			.test{
+				width: 200px;
+				height: 200px;
+				background: red;
+				border-radius:50%;
+				border-top: 5px solid yellow;
+				border-bottom: 5px solid yellowgreen;
+				border-left: 5px solid green;
+				border-right:5px solid #00A0E9;
+				margin-right: 10px;
+				float: left;
+				line-height: 200px;
+				text-align: center;
+			}
+			.btn{
+				width: 100px;
+				height: 50px;
+				border: 1px solid #000;
+				margin-bottom: 20px;
+				line-height: 50px;
+				text-align: center;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="test">第一个</div>
+		<div class="test">第二个</div>
+		<div class="test">第三个</div>
+		<div class="test">第四个</div>
+		<div class="test">第五个</div>
+		<script src="js/xuanzhuan.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			var oDiv = document.getElementsByClassName('test')[0];
+			var oDiv2 = document.getElementsByClassName('test')[1];
+			var oDiv3 = document.getElementsByClassName('test')[2];
+			var oDiv4 = document.getElementsByClassName('test')[3];
+			var oDiv5 = document.getElementsByClassName('test')[4];
+			oDiv.onclick = function start(){
+				oDiv.num = 2;
+				xuan(oDiv,-oDiv.num);
+			}
+			oDiv2.onclick = function start(){
+				oDiv2.num = 4;
+				xuan(oDiv2,oDiv2.num);
+			}
+			oDiv3.onclick = function start(){
+				oDiv3.num = 6;
+				xuan(oDiv3,-oDiv3.num);
+			}
+			oDiv4.onclick = function start(){
+				oDiv4.num = 8;
+				xuan(oDiv4,oDiv4.num);
+			}
+			oDiv5.onclick = function start(){
+				oDiv5.num = 10;
+				xuan(oDiv5,-oDiv5.num);
+			}
+		</script>
+	</body>
+</html>

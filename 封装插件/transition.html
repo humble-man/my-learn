@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			.trans_box {
+				padding: 20px;
+				background-color: #f0f3f9;
+				*zoom: 1;
+			}
+			
+			.trans_list {
+				width: 50px;
+				height: 50px;
+				margin: 10px 0;
+				background-color: #486AAA;
+				color: #fff;
+				text-align: center;
+				overflow: hidden;
+			}
+			
+			.ease {
+				-webkit-transition: all 2s ease;
+				-moz-transition: all 2s ease;
+				-o-transition: all 2s ease;
+				transition: all 2s ease;
+			}
+			
+			.ease_in {
+				-webkit-transition: all 2s ease-in;
+				-moz-transition: all 2s ease-in;
+				-o-transition: all 2s ease-in;
+				transition: all 2s ease-in;
+			}
+			
+			.ease_out {
+				-webkit-transition: all 2s ease-out;
+				-moz-transition: all 2s ease-out;
+				-o-transition: all 2s ease-out;
+				transition: all 2s ease-out;
+			}
+			
+			.ease_in_out {
+				-webkit-transition: all 2s ease-in-out;
+				-moz-transition: all 2s ease-in-out;
+				-o-transition: all 2s ease-in-out;
+				transition: all 2s ease-in-out;
+			}
+			
+			.linear {
+				-webkit-transition: all 2s linear;
+				-moz-transition: all 2s linear;
+				-o-transition: all 2s linear;
+				transition: all 2s linear;
+			}
+			
+			.trans_box:hover .trans_list{
+				margin-left: 89%;
+				background-color: yellow;
+				color: #333;
+				-webkit-border-radius: 50%;
+				-moz-border-radius: 50%;
+				-o-border-radius: 50%;
+				border-radius: 50%;
+				-webkit-transform: rotate(360deg);
+				-moz-transform: rotate(360deg);
+				-o-transform: rotate(360deg);
+				transform: rotate(360deg);
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="transBox" class="trans_box">
+			<div class="trans_list ease">ease</div>
+			<div class="trans_list ease_in">ease-in</div>
+			<div class="trans_list ease_out">ease-out</div>
+			<div class="trans_list ease_in_out">ease-in-out</div>
+			<div class="trans_list linear">linear</div>
+		</div>
+	</body>
+
+</html>
