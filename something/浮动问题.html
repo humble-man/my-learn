@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			*{
+				margin: 0;
+				padding: 0;
+			}
+			.clearfix::after{
+ 		       content:"";
+		       width: 10px;
+		       height: 2px;
+		       font-size:0;
+		       display: block;
+		       clear: both;
+		    }
+
+			.test{
+				border: 1px solid #000;
+				width: 100%;
+				
+			}
+			
+			.hhh{
+				width: 100px;
+				height: 100px;
+				margin-right: 10px;
+				float: left;
+				border: 1px solid #000;
+			}
+			
+			.test2{
+				width: 100px;
+				height: 100px;
+				margin-right: 10px;
+				border: 1px solid #000;
+			}
+		</style>
+	</head>
+	<body">
+		<div class="test clearfix">
+			<div class="hhh">11</div>
+			<div class="hhh">11</div>
+			<div class="hhh">11</div>
+			<div class="hhh">11</div>
+		</div>
+		<div class="test2">
+			新的div
+		</div>
+		
+	</body>
+</html>

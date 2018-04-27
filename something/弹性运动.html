@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>弹性运动简易</title>
+		<style type="text/css">
+			.box{
+				width: 100px;
+				height: 100px;
+				background: red;
+				position: absolute;
+				top: 50px;
+				left: 0;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="box" id="div1"></div>
+		<div style="position: absolute;width: 1px; height: 300px; top: 0;left: 500px;background-color: #000000;"></div>
+		<input type="button" value="运动开始" onclick="toMove(500)"/>
+		
+		<script type="text/javascript">
+			
+			var oDiv = document.getElementById('div1');
+			var isSpeed = 0;
+			
+			function toMove(target){
+				setInterval(function(){
+					
+					//当物体还没接近目标时  速度逐渐增加 但增加量逐渐减少  当物体超过目标点 速度逐渐减小  减少量也逐渐增加
+//					isSpeed+=(target-oDiv.offsetLeft)/5;
+					if(oDiv.offsetLeft<target){
+						isSpeed+=(target-oDiv.offsetLeft)/5;
+					}else{
+						isSpeed-=(oDiv.offsetLeft - target)/5;
+					}
+					
+					//给物体的移动增加摩擦 达到速度逐渐减小至0
+					isSpeed*=0.7;
+					oDiv.style.left = oDiv.offsetLeft + isSpeed + "px";
+				},30)
+				
+			}
+		</script>
+	</body>
+</html>

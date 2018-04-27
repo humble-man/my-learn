@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			.box {
+				width: 200px;
+				height: 200px;
+				background-color: red;
+			}
+		</style>
+		<script type="text/javascript">
+			window.onload = function() {
+				var oTab = new Tabswitch('div1');
+				var oTab = new Tabswitch('div2')
+			}
+
+			function Tabswitch(id) {
+				var oDiv = document.getElementById(id);
+				this.aBtn = oDiv.getElementsByTagName('input');
+				this.aDiv = oDiv.getElementsByTagName('div');
+				var i = 0;
+				var _this = this;
+				for(i = 0; i < this.aBtn.length; i++) {
+					this.aBtn[i].index = i;
+					this.aBtn[i].onclick = function() {
+						_this.tab(this);
+					};
+				}
+			}
+
+			Tabswitch.prototype.tab = function(oBtn) {
+				for(i = 0; i < this.aBtn.length; i++) {
+					this.aBtn[i].className = '';
+					this.aDiv[i].style.display = 'none';
+				}
+				oBtn.className = 'active';
+				this.aDiv[oBtn.index].style.display = 'block';
+			}
+		</script>
+	</head>
+
+	<body>
+		<div id="div1">
+			<input type="button" value="1" />
+			<input type="button" value="2" />
+			<input type="button" value="3" />
+			<div class="box" style="display: block;">11111111</div>
+			<div class="box" style="display: none;">22222222</div>
+			<div class="box" style="display: none;">33333333</div>
+		</div>
+
+		<div id="div2">
+			<input type="button" value="1" />
+			<input type="button" value="2" />
+			<input type="button" value="3" />
+			<div class="box" style="display: block;">11111111</div>
+			<div class="box" style="display: none;">22222222</div>
+			<div class="box" style="display: none;">33333333</div>
+		</div>
+	</body>
+
+</html>

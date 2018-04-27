@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			*{
+				margin: 0;
+				padding: 0;
+			}
+			html,body{
+				height: 100%;
+				width: 100%;
+			}
+			.test{
+				width: 0px;
+				height: 200px;
+				background-color: red;
+				position: absolute;
+				top: 0;
+				right: 0;
+			}
+			
+			.btn{
+				width: 100px;
+				height: 100px;
+				background: red;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="test"></div>
+		<div class="btn" onclick="show()">显示</div>
+		<script type="text/javascript">
+			var oDiv = document.getElementsByClassName('test')[0];
+			var win_height = document.body.clientHeight;
+			var oDiv_height = oDiv.offsetHeight;
+			var oDiv_width = oDiv.offsetWidth;
+			var top_num = (win_height - oDiv_height)/2;
+			oDiv.style.top = top_num + 'px';
+//			oDiv.style.right = -oDiv_width + 'px';
+			
+			
+			var isSpeed = 2;
+			var left_num = 0;
+			var timer;
+			function show(){
+				console.log('开始动画');
+				clearInterval(timer);
+				timer = setInterval(function(){
+					left_num += isSpeed;
+					console.log(left_num);
+					oDiv.style.width = left_num + 'px';
+					if(left_num == 50){
+						clearInterval(timer);
+					}
+				},10);
+			}
+			
+			
+			
+		</script>
+	</body>
+</html>

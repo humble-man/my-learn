@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>弹性菜单</title>
+		<style type="text/css">
+			*{
+				margin: 0;
+				padding: 0;
+			}
+			#list{
+				/*width: 400px;*/
+				height: 30px;
+				position: relative;
+				margin: 30px auto;
+			}
+			#list li{
+				float: left;
+				width: 98px;
+				height: 28px;
+				line-height: 28px;
+				border: 1px solid #000;
+				text-align: center;
+				z-index: 2;
+				position: relative;
+				list-style: none;
+				cursor: pointer;
+			}
+			#bg{
+				width: 100px;
+				height: 5px!important;
+				overflow: hidden;
+				background: red;
+				border: none;
+				position: absolute!important;
+				top: 24px;
+				left: 0;
+				z-index: 1;
+			}
+		</style>
+	</head>
+	<body>
+		
+		<ul id="list">
+			<li>菜单1</li>
+			<li>菜单2</li>
+			<li>菜单3</li>
+			<li>菜单4</li>
+			<li>菜单5</li>
+			<li>菜单6</li>
+			<li id="bg"></li>
+		</ul>
+		
+		
+		<script type="text/javascript">
+			
+			var oUl = document.getElementById('list');
+			var	oLi = document.getElementsByTagName('li');
+			var oBg = document.getElementById('bg');
+			oUl.style.width = (oLi.length-1)*oLi[0].offsetWidth + 'px';
+			var isSpeed = 0;
+			var left = 0;
+			
+			for(var i=0;i<oLi.length-1;i++){
+				oLi[i].onmouseover = function(){
+					toMove(oBg,this.offsetLeft);
+				}
+//				oLi.onmouseover = function(){
+//					toMove(oBg,this.offsetLeft);
+//				}
+			}
+			
+			function toMove(obj,target){
+				
+				clearInterval(obj.timer);
+				
+				obj.timer = setInterval(function(){
+					//当物体还没接近目标时  速度逐渐增加 但增加量逐渐减少  当物体超过目标点 速度逐渐减小  减少量也逐渐增加
+//					isSpeed+=(target-oDiv.offsetLeft)/5;
+//					if(oDiv.offsetLeft<target){
+//						isSpeed+=(target-oDiv.offsetLeft)/5;
+//					}else{
+//						isSpeed-=(oDiv.offsetLeft - target)/5;
+//					}
+					isSpeed+=(target-obj.offsetLeft)/5;
+					
+					//给物体的移动增加摩擦 达到速度逐渐减小至0
+					isSpeed*=0.7;
+					
+					//style.left 只能是整数  所以为了防止造成偏移量的偏差  用变量来储存速度
+					left+=isSpeed;
+					
+//					执行完一次就清除定时器
+					if(Math.abs(isSpeed) < 1 && Math.abs(left - target) <1 ){
+						clearInterval(obj.itmer);
+						obj.style.left = target + 'px';
+					}else{
+						obj.style.left = left + "px";
+					}
+				},30)
+				
+			}
+		</script>
+	</body>
+</html>
