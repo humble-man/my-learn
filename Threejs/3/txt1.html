@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>创建文本</title>
+		<style type="text/css">
+			* {
+				padding: 0px;
+				margin: 0px
+			}
+			
+			#canvas-frame {
+				width: 100%;
+				height: 600px;
+			}
+		</style>
+		<script src="js/three.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/OrbitControls.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+
+	<body>
+		<div id="canvas-frame"></div>
+		<script type="text/javascript">
+			//初始化渲染器
+			var renderer;
+
+			function initRenderer() {
+				renderer = new THREE.WebGLRenderer({
+					antialias: true
+				});
+				var width = document.getElementById("canvas-frame").clientWidth;
+				var height = document.getElementById("canvas-frame").clientHeight;
+				renderer.setSize(width, height);
+				renderer.setClearColor(0xffffff);
+				document.getElementById("canvas-frame").appendChild(renderer.domElement);
+			}
+
+			//初始化场景  添加烟雾效果  new THREE.Fog( color,near,far)，其中： color:十六进制，烟雾的颜色值； near:烟雾的范围,沿Z轴的近端； far:烟雾的范围，沿Z轴的远端；
+			var scene;
+
+			function initScene() {
+				scene = new THREE.Scene();
+				scene.fog = new THREE.Fog(0x77FFEE, 0, 3000);
+			}
+
+			//初始化相机（PerspectiveCamera/透视相机）
+			var camera;
+
+			function initCamera() {
+				var width = document.getElementById("canvas-frame").clientWidth;
+				var height = document.getElementById("canvas-frame").clientHeight;
+				camera = new THREE.PerspectiveCamera(30, width / height, 1, 10000);
+				camera.position.y = 800 / Math.tan(Math.PI / 2.5);
+				camera.position.z = 800;
+			}
+
+			//初始化灯光  
+			var light;
+
+			function initLight() {
+				var pointLight = new THREE.PointLight(0xffffff, 1);
+				pointLight.position.set(0, 100, 100);
+				scene.add(pointLight);
+
+				var pointLight = new THREE.PointLight(0xffffff, 1);
+				pointLight.position.set(0, 100, -100);
+				scene.add(pointLight);
+			}
+
+			//初始化文本
+			var txt;
+
+			function initText() {
+				var loader = new THREE.FontLoader(); //字体加载器
+				loader.load('font/gentilis_bold.typeface.json', function(response) { //加载字体库，加载成功后将字体库传给回调函数
+					var font = response;
+					var textGeometry = new THREE.TextGeometry("Hello Mr.Xu", {
+						"font": font, //使用的字体库
+						"size": 70, //绘制字体的大小  
+						"height": 20, //绘制文本的厚度
+						"bevelEnabled": true, //是否允许棱角平滑过渡
+						"bevelSize": 2 //:棱角平滑过渡的尺寸
+					})
+
+					//初始化文字的材质 （皮肤）
+					text = new THREE.Mesh(textGeometry, new THREE.MultiMaterial([
+						new THREE.MeshPhongMaterial({
+							color: 0x87CEFF,
+							shading: THREE.FlatShading
+						}),
+						new THREE.MeshPhongMaterial({
+							color: 0x87CEFF,
+							shading: THREE.SmoothShading
+						})
+					]))
+
+					//初始化文字的显示位置
+					textGeometry.computeBoundingBox();
+					var centerOffset = -0.5 * (textGeometry.boundingBox.max.x - textGeometry.boundingBox.min.x);
+					text.position.x = centerOffset;
+					text.position.y = 30;
+					scene.add(text);
+
+				})
+			}
+
+
+			//最终渲染
+			function render() {
+				renderer.render(scene, camera);
+				requestAnimationFrame(render);
+			}
+
+			function start() {
+				initRenderer();
+				initScene();
+				initCamera();
+				initLight();
+				initText();
+				render();
+			}
+
+			start();
+		</script>
+	</body>
+
+</html>
