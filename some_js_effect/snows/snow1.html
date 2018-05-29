@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+		<title>下雪？</title>
+		<style>
+			* {
+				padding: 0;
+				margin: 0;
+			}
+			
+			body {
+				background: #000;
+				width: 100%;
+				height: 100%;
+				overflow: hidden;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="flame"></div>
+		<script>
+
+			/*为这个对象添加一个具有一个参数的原型方法*/
+			var draw = function(o) {
+
+				//初始化雪花落下的高度
+				var speed = 0;
+
+				//设置雪花随机的很坐标位置
+				var startPosLeft = Math.ceil(Math.random() * document.documentElement.clientWidth);
+				o.style.left = startPosLeft + 'px';
+
+				//设置透明度
+				o.style.opacity = (Math.ceil(Math.random() * 3) + 7) / 10;
+
+				//设置颜色
+				o.style.color = "#fff";
+
+				//设置字体大小
+				o.style.fontSize = 12 + Math.ceil(Math.random() * 14) + 'px';
+
+				//雪花掉落的定时器
+				setInterval(function() {
+
+					//雪花下落的高度值小于屏幕的可视区域高时执行下列
+					if(speed < document.documentElement.clientHeight) {
+
+						//使告诉逐渐增加
+						o.style.top = speed + 'px';
+
+						//设定雪花向做飘落的偏移量
+						o.style.left = startPosLeft + Math.ceil(Math.random() * 8) + 'px';
+
+						//高度(速度)每次增加20
+						speed += 20;
+
+					} else {
+
+						//掉落到外面则删掉
+						o.style.display = 'none';
+					}
+				}, 150);
+			}
+
+			//绑定幕布
+			var flame = document.getElementById('flame');
+
+			/*用定时器每600毫秒创建一个雪花*/
+			setInterval(function() {
+				
+				//创建div
+				var odiv = document.createElement('div'); 
+				
+				//div的内容
+				odiv.innerHTML = "✽"; 
+				
+				//div的绝对定位
+				odiv.style.position = 'absolute'; 
+				
+				//把创建好的div放进flame中
+				flame.appendChild(odiv); 
+				
+				//执行obj的draw方法
+				draw(odiv); 
+			}, 300);
+		</script>
+	</body>
+
+</html>

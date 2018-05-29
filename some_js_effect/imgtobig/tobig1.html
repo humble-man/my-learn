@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>图片放大-有Bug</title>
+		<style type="text/css">
+			.content{
+				width: 1000px;
+				height: auto;
+				margin: auto;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="content">
+			<img src="images/1.jpg" id="0" onclick="getIndex(this)">
+			<img src="images/2.jpg" id="1" onclick="getIndex(this)" />
+			<img src="images/3.jpg" id="2" onclick="getIndex(this)" />
+			<img src="images/4.jpg" id="3" onclick="getIndex(this)">
+			<img src="images/5.jpg" id="4" onclick="getIndex(this)" />
+			<img src="images/6.jpg" id="5" onclick="getIndex(this)" />
+			<img src="images/7.jpg" id="6" onclick="getIndex(this)">
+			<img src="images/8.jpg" id="7" onclick="getIndex(this)" />
+			<img src="images/9.jpg" id="8" onclick="getIndex(this)" />
+			<img src="images/10.jpg" id="9" onclick="getIndex(this)">
+			<img src="images/11.jpg" id="10" onclick="getIndex(this)" />
+			<img src="images/12.jpg" id="11" onclick="getIndex(this)" />
+			<img src="images/13.jpg" id="12" onclick="getIndex(this)">
+			<img src="images/14.jpg" id="13" onclick="getIndex(this)" />
+			<img src="images/15.jpg" id="14" onclick="getIndex(this)" />
+			<img src="images/16.jpg" id="15" onclick="getIndex(this)">
+		</div>
+		<script>
+			//设定图片的初始状态
+			var flag = true;
+
+			//图片的点击函数 （obj == img 这个对象 由 this 传过来  id 则是 img 的 id）
+			function getIndex(obj, id) {
+
+				//定义一个变量 储存 img 的 id ，将 img 的 id 赋值给 img_id 
+				var img_id = obj.id,
+
+					//绑定  选中的  img  （由传送过来的 id 指定）
+					img = document.getElementById("" + img_id),
+
+					imgH, //存储图片的高度
+					imgW; //存储图片的宽度
+
+				//将高度和宽度赋值
+				imgH = img.height; //获取图片的高度
+				imgW = img.width; //获取图片的宽度
+
+				//判断图片的状态
+				if(flag) {
+					//图片为正常状态,设置图片宽高为现在宽高的2倍
+					flag = false; //把状态设为放大状态
+					img.height = imgH * 2;
+					img.width = imgW * 2;
+				} else {
+					//图片为放大状态,设置图片宽高为现在宽高的二分之一
+					flag = true; //把状态设为正常状态
+					img.height = imgH / 2;
+					img.width = imgW / 2;
+				}
+
+			}
+		</script>
+	</body>
+
+</html>

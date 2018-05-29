@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<title>猜猜看</title>
+		<style type="text/css">
+			.content{
+				width: 500px;
+				height:auto;
+				margin: auto;
+				text-align: center;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="content">
+			<p>您一共有5次机会哦</p>
+			<input id="rnum" type="text"><input id="sbt" type="submit" value="我猜对了吗？">
+			<p id="jg">此处显示结果:</p>
+			<p id="ts">提示：</p>
+		</div>
+	</body>
+
+	<script>
+		//生成从1-100的随机数
+		var num = Math.floor(Math.random() * 100 + 1);
+		console.log(num);
+		//绑定页面中的元素
+		var oInput = document.getElementById("rnum");
+		var oSbt = document.getElementById("sbt");
+		var oJg = document.getElementById("jg");
+		var oTs = document.getElementById("ts");
+
+		//初始化猜测的次数
+		var i = 5;
+		//储存猜测后的剩余次数
+		var j;
+
+		//猜测按钮的方法
+		oSbt.onclick = function() {
+
+			//判断输入的文本是否为1-100之间的任意数值
+			if(oInput.value >= 1 && oInput.value <= 100) {
+
+				//次数减少一次
+				i--;
+
+				//判断猜测是否错误
+				if(oInput.value != num) {
+
+					oJg.innerHTML = "您输入的是" + oInput.value + "，回答错误，你还有" + i + "次机会哦。";
+
+					//将输入框重置为空
+					oInput.value = "";
+
+					//判断是否为最后一次机会
+					if(i == 1) {
+						var min = num - 5;
+						var max = num + 5;
+						oTs.innerHTML = "最后一次机会咯，给你一点提示吧，答案的范围在" + min + "和" + max + "之间哦！";
+
+						//如果随机数小于10，给出1-10的范围提示
+						if(num >= 1 && num <= 10) {
+							oTs.innerHTML = "最后一次机会咯，给你一点提示吧，答案的范围在1和10之间哦！";
+						}
+						if(num >=90 && num <= 100) {
+							oTs.innerHTML = "最后一次机会咯，给你一点提示吧，答案的范围在90和100之间哦！";
+						}
+
+					} else {
+						oTs.innerHTML = "提示：";
+					}
+				}
+
+				//如果最后一次刚好回答正确
+				if(i == 0 && oInput.value == num) {
+					oJg.innerHTML = "机会用完了，不过刚刚好猜对，恭喜你!!!" + "<br>" + "(随机数已经重新生成，您还可以继续猜答案哦。)";
+
+					//重新生成一个随机数
+					num = Math.floor(Math.random() * 100 + 1);
+
+					//将机会重新变成5次
+					i = 5;
+
+					//重置输入框内的值
+					oInput.value = "";
+
+					//将提示重置
+					oTs.innerHTML = "提示：";
+				}
+
+				//不是最后一次机会答对
+				if(i != 0 && oInput.value == num) {
+					oJg.innerHTML = "这么快就猜对了，恭喜你!!!" + "<br>" + "(随机数已经重新生成，您还可以继续猜答案哦。)";
+
+					//重新生成随机数
+					num = Math.floor(Math.random() * 100 + 1);
+
+					//将机会重新变成5次
+					i = 5;
+
+					//将输入框重置为空
+					oInput.value = "";
+				}
+
+				//机会用完依旧没有猜对
+				if(i == 0 && oInput.value != num) {
+					oJg.innerHTML = "机会用完了，很遗憾，正确答案是" + num + "，你没有猜对!!!" + "<br>" + "（随机数已经重新生成，请加油吧。)";
+
+					//重新生成随机数
+					num = Math.floor(Math.random() * 100 + 1);
+
+					//将机会重新变成5次
+					i = 5;
+				}
+			} else {
+
+				//如果输入的文本不符合要求
+				oTs.innerHTML = "你的输入有误，请重试。" + "<br>" + "（请输入1-100的任意数）";
+
+				//将输入框重置为空
+				oInput.value = "";
+			}
+		}
+	</script>
+
+</html>

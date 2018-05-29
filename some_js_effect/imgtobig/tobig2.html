@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>变大变小</title>
+		<style type="text/css">
+			.content{
+				width: 1000px;
+				height: auto;
+				margin: 0 auto;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="content">
+			<img src="images/1.jpg" alt="" id="0" onclick="getIndex(this)"/>
+			<img src="images/2.jpg" alt="" id="1" onclick="getIndex(this)"/>
+			<img src="images/3.jpg" alt="" id="2" onclick="getIndex(this)"/>
+			<img src="images/4.jpg" alt="" id="3" onclick="getIndex(this)"/>
+			<img src="images/5.jpg" alt="" id="4" onclick="getIndex(this)"/>
+			<img src="images/6.jpg" alt="" id="5" onclick="getIndex(this)"/>
+			<img src="images/7.jpg" alt="" id="6" onclick="getIndex(this)"/>
+			<img src="images/8.jpg" alt="" id="7" onclick="getIndex(this)"/>
+			<img src="images/9.jpg" alt="" id="8" onclick="getIndex(this)"/>
+			<img src="images/10.jpg" alt="" id="9" onclick="getIndex(this)"/>
+			<img src="images/11.jpg" alt="" id="10" onclick="getIndex(this)"/>
+			<img src="images/12.jpg" alt="" id="11" onclick="getIndex(this)"/>
+			<img src="images/13.jpg" alt="" id="12" onclick="getIndex(this)"/>
+			<img src="images/14.jpg" alt="" id="13" onclick="getIndex(this)"/>
+			<img src="images/15.jpg" alt="" id="14" onclick="getIndex(this)"/>
+			<img src="images/16.jpg" alt="" id="15" onclick="getIndex(this)"/>
+		</div>
+		<script type="text/javascript">
+			var arr=new Array(16);
+				for(var i=0;i<arr.length;i++)
+				{
+					arr[i]=1;
+				}
+			function getIndex(ojb,id){
+				var img_id = ojb.id;
+				var img = document.getElementById(""+img_id);
+				var imgW=img.width;
+				
+				if(arr[img_id]==1)
+				{
+					arr[img_id]++;
+					img.width=imgW*2;
+					
+				}
+				else
+				{
+					arr[img_id]--;
+					img.width=imgW/2;
+				}
+			}
+		</script>
+	</body>
+</html>

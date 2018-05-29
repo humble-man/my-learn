@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			.box {
+				width: 100px;
+				height: 100px;
+				background: red;
+				position: absolute;
+			}
+		</style>
+	</head>
+
+	<body>
+		<input type="button" value="开始运动" onclick="toMove()" />
+		<div class="box" id="box"></div>
+
+		<script type="text/javascript">
+			var oDiv = document.getElementById('box');
+			
+			//设定横纵向的速度
+			var isSpeedX = 10;
+			var isSpeedY = 10;
+
+			function toMove() {
+
+				setInterval(function() {
+					
+					//物体的偏移值  (物体当前的上和左距离 + 当前纵横的速度)
+					var l = oDiv.offsetLeft + isSpeedX;
+					var t = oDiv.offsetTop + isSpeedY;
+
+
+					//判断物体是否触碰上下边界  触碰边界改变速度正负值  改变物体的运动方向
+					if(t >= document.documentElement.clientHeight - oDiv.offsetHeight) {
+						isSpeedY *= -1;
+						t = document.documentElement.clientHeight - oDiv.offsetHeight;
+					} else if(t <= 0) {
+						isSpeedY *= -1;
+						t = 0;
+					}
+					
+					//判断物体是否触碰左右边界  触碰边界改变速度正负值  改变物体的运动方向
+					if(l > document.documentElement.clientWidth - oDiv.offsetWidth) {
+						isSpeedX *= -1;
+						l = document.documentElement.clientWidth - oDiv.offsetWidth;
+					} else if(l <= 0) {
+						isSpeedX *= -1;
+						l = 0;
+					}
+
+					oDiv.style.left = l + 'px';
+					oDiv.style.top = t + 'px';
+				}, 30);
+			}
+		</script>
+	</body>
+
+</html>
