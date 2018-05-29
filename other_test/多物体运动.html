@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			div {
+				width: 100px;
+				height: 100px;
+				margin: 10px;
+				background-color: red;
+			}
+			.div3{
+				filter: aplha(opacity:20);
+				opacity:0.2;
+			}
+		</style>
+		<script type="text/javascript">
+			window.onload = function(){
+				var oDiv = document.getElementsByTagName('div');
+
+					oDiv[0].onmousemove = function(){
+						start(this,'width',500)
+					}
+					oDiv[0].onmouseout = function(){
+						start(this,'width',100)
+					}
+					
+					oDiv[1].onmousemove = function(){
+						start(this,'height',500)
+					}
+					oDiv[1].onmouseout = function(){
+						start(this,'height',100)
+					}
+					
+					oDiv[2].onmousemove = function(){
+						start(this,'opacity',100)
+					}
+					oDiv[2].onmouseout = function(){
+						start(this,'opacity',20)
+					}
+					
+
+			}
+			
+			function getstyle(obj,shuxing){
+				if(obj.currentStyle){
+					return obj.currentStyle[shuxing];
+				}else{
+					return getComputedStyle(obj,false)[shuxing];
+				}
+			}
+			function start(obj,shuxing,mubiao) {
+				clearInterval(obj.timer);
+				obj.timer = setInterval(function() {
+					
+					if(shuxing == "opacity"){
+						var iCu = parseInt(parseFloat(getstyle(obj,''+shuxing))*100);
+					}else{
+						var iCu = parseInt(getstyle(obj,''+shuxing));
+					}
+					var isSpeed = (mubiao - iCu) / 8;
+					isSpeed = isSpeed>0? Math.ceil(isSpeed) : Math.floor(isSpeed);
+					if(iCu == mubiao){
+						clearInterval(obj.timer);
+					}else{
+						if(shuxing == "opacity"){
+						  obj.style.filter = 'alpha(opacity:'+(iCu + isSpeed)+')';
+						  obj.style.opacity = (iCu + isSpeed)/100;
+						}else{
+						  obj.style[shuxing] = iCu + isSpeed + 'px';
+						}
+					}
+				}, 30);
+			}
+		</script>
+	</head>
+
+	<body>
+		<div></div>
+		<div></div>
+		<div class="div3"></div>
+	</body>
+
+</html>
