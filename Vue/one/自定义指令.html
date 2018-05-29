@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>各类指令的学习</title>
+		<script src="../one/js/vue.js" type="text/javascript" charset="utf-8"></script>
+		<style type="text/css">
+
+		</style>
+	</head>
+
+	<body>
+		<div class="test">
+			<input v-focus type="text" />
+		</div>
+		
+		
+		<!--<div class="test2">
+			<input v-focus type="text" />
+		</div>-->
+	</body>
+	<script type="text/javascript">
+		Vue.directive('focus',{
+			inserted:function(el){
+				el.focus();
+			}
+		})
+		
+		new Vue({
+			el:'.test'
+		})
+		
+		
+		
+//		new Vue({
+//			el:'.test2',
+//			directives:{
+//				focus:{
+//					inserted:function(el){
+//						el.focus();
+//					}
+//				}
+//			}
+//		})
+	</script>
+</html>

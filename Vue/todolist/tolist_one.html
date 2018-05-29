@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script src="../todolist/js/vue.js" type="text/javascript" charset="utf-8"></script>
+		<style type="text/css">
+			ul li{
+				list-style: none;
+				cursor: pointer;
+			}
+			.success{
+				color: red;
+				text-decoration: line-through;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="test_todolist">
+			<input type="text" v-model="newtodotext" v-on:keyup.enter="addNewTodo" placeholder="请输入新的内容" />
+			<ul>
+				<li v-for="(todo, index) in todos" v-bind:key="todo.id" v-bind:title="todo.txt" v-on:click="finalsh(todo)" v-bind:class="{success:todo.success}">{{ todo.id}}---{{ todo.txt }}</li>
+			</ul>
+		</div>
+		<script type="text/javascript">
+			new Vue({
+				el:'.test_todolist',
+				data:{
+					todos:[
+						{
+							id:1,
+							txt:'这是第一个列表',
+							success:false
+						},
+						{
+							id:2,
+							txt:'这是第二个列表',
+							success:false
+						},
+						{
+							id:3,
+							txt:'这是第三个列表',
+							success:false
+						}
+					],
+					newtodotext:'',
+					newtodoid:4,
+					newsuccess:false
+				},
+				methods:{
+					addNewTodo:function(){
+						this.todos.push({
+							id: this.newtodoid++,
+							txt: this.newtodotext,
+							success:this.newsuccess
+						}),
+						this.newtodotext = ''
+					},
+					finalsh:function(todo){
+						todo.success =! todo.success
+					}
+				}
+			});
+		</script>
+	</body>
+</html>

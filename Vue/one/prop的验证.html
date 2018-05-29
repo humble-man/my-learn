@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>各类指令的学习</title>
+		<script src="../one/js/vue.js" type="text/javascript" charset="utf-8"></script>
+		<style type="text/css">
+			
+		</style>
+	</head>
+	<body>
+		<div class="test_yz">
+			<prop-yz :num="123" :msg="7945"b :num1="2333" :object="{test:'123'}" :cust="12132"></prop-yz>
+		</div>
+	</body>
+	<script type="text/javascript">	
+		Vue.component('prop-yz',{
+			props:{
+				// 基础类型检测 (`null` 意思是任何类型都可以)
+			    num: Number,
+				msg:{
+					type:String,
+					required:true
+				},
+				num1: {
+				    type: Number,
+				    default: 1000
+				},
+				object: {
+				    type: Object,
+				    default: function () {
+				    	return { message: 'hello' }
+				    }
+				},
+				cust: {
+				     validator: function (value) {
+				     return value > 10
+				    }
+				}
+			},
+			template:"<div style='color:red;'>{{ num }}<br/>{{ msg }}<br/>{{ num1 }}<br/>{{ object }}<br/>{{ cust }}</div>"
+		})
+		
+		new Vue({
+		   el: ".test_yz"
+		  });
+	</script>
+</html>

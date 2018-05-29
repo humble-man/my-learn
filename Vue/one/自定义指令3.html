@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>各类指令的学习</title>
+		<script src="../one/js/vue.js" type="text/javascript" charset="utf-8"></script>
+		<style type="text/css">
+
+		</style>
+	</head>
+
+	<body>
+		<div class="test">
+			<div v-runoob="{ bgcolor: 'red', text: '测试的文本内容' ,color:'#fff'}"></div>
+		</div>
+
+	</body>
+	<script type="text/javascript">
+		Vue.directive('runoob', function(el, jsoncnt) {
+			// 简写方式设置文本及背景颜色
+			el.innerHTML = jsoncnt.value.text
+			el.style.backgroundColor = jsoncnt.value.bgcolor
+			el.style.color = jsoncnt.value.color
+		})
+		new Vue({
+			el: '.test'
+		})
+	</script>
+
+</html>

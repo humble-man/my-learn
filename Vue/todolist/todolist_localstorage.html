@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<title>Vue1</title>
+		<style type="text/css">
+			html,
+			body {
+				margin: 0;
+				padding: 0;
+				height: 100%;
+				width: 100%;
+			}
+			
+			.test {
+				width: 50%;
+				height: 600px;
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				border: 1px solid #000;
+				transform: translate(-50%, -50%);
+				overflow: hidden;
+			}
+			
+			.title {
+				width: 100%;
+				height: 50px;
+				line-height: 50px;
+				text-align: center;
+			}
+			
+			ul {
+				width: 50%;
+				margin: auto;
+			}
+			
+			.finish {
+				color: red;
+				text-decoration: line-through;
+			}
+			
+			input {
+				display: block;
+				margin: auto;
+				margin-bottom: 20px;
+			}
+			.testul{
+				position: absolute;
+				top: 0;
+				left: 0;
+			}
+		</style>
+		<script src="http://libs.baidu.com/jquery/2.0.0/jquery.js"></script>
+		<script src="../todolist/js/vue.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+
+	<body>
+		<div class="test">
+			<div class="title" v-text="title"></div>
+			<input type="text" v-model="newList" placeholder="请输入新的代办事项" @keyup.enter="addNewList()" />
+			<ul>
+				<li v-for="list in lists" :class="{finish:list.isFinished}" @click="toFinish(list)">名称：{{ list.name }}</li>
+			</ul>
+		</div>
+		
+
+		<script type="text/javascript">
+			var obj = JSON.parse(window.localStorage.getItem("new_list"));
+			if(obj){
+				obj = JSON.parse(window.localStorage.getItem("new_list"));
+			}else{
+				obj = [];
+			}
+			var vue = new Vue({
+				el: '.test',
+				data: {
+					title: 'TodoList',
+					lists: obj,
+					newList: ''
+				},
+				methods: {
+					toFinish: function(list) {
+						list.isFinished = !list.isFinished;
+					},
+					addNewList: function() {
+						this.lists.push({
+							name: this.newList,
+							isFinished: false
+						});
+						this.newList = "";
+					}
+				},
+				watch: {
+					lists: {
+						handler: function(lists) {
+							console.log(lists);
+							window.localStorage.setItem("new_list", JSON.stringify(lists));
+						},
+						deep: true
+					}
+				}
+			})
+		</script>
+	</body>
+
+</html>

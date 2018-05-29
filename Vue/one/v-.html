@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>各类指令的学习</title>
+		<script src="../one/js/vue.js" type="text/javascript" charset="utf-8"></script>
+		<style type="text/css">
+			#test_bind,
+			#test_bind2 {
+				width: 100px;
+				height: 100px;
+				border: 1px solid #000;
+			}
+			
+			.test_bind {
+				background: red;
+			}
+			
+			.classname {
+				background: #000;
+			}
+			
+			.classname2 {
+				color: #fff;
+			}
+			
+			li{
+				list-style:armenian;
+			}
+		</style>
+	</head>
+
+	<body>
+		<!--v-bind 指令的使用-->
+		<div id="test_bind" v-bind:class="classname">
+			这里是使用v-bind 指令 添加class
+		</div>
+
+		<!--v-bind 的缩写使用 ：-->
+		<div id="test_bind2" :class="classname">
+			这里是使用v-bind 缩写指令（:） 添加class
+		</div>
+
+		<!--v-bind 的缩写使用 ：-->
+		<div id="test_bind3" :class="{classname,classname2}">
+			这里是使用v-bind 缩写指令（:） 添加多个class
+		</div>
+
+		<!--v-bind 的缩写使用 ：-->
+		<div id="test_bind4" :class="{classname:isname,classname2:isname2}">
+			这里是使用v-bind 缩写指令（:） 添加多个class
+		</div>
+
+		<!--v-on 指令的使用-->
+		<div id="test_on" v-on:click="changecolor">
+			这里是使用 {{ name }} 弹出alert
+		</div>
+
+		<!--v-on 指令的使用-->
+		<div id="test_on2" @click="changecolor">
+			这里是使用 {{ name }} 弹出alert
+		</div>
+
+		<!--v-if 和 v-false指令的使用-->
+		<div class="test_if">
+			<h1 v-if="true_false">Yes</h1>
+			<h1 v-else>No</h1>
+
+			<div v-if="Math.random() > 0.5">
+				Math.random() > 0.5 条件 成立
+			</div>
+			<div v-else>
+				Math.random() > 0.5 条件不成立
+			</div>
+
+			<div v-if="type === 'A'">
+				A
+			</div>
+			<div v-else-if="type === 'B'">
+				B
+			</div>
+			<div v-else-if="type === 'C'">
+				C
+			</div>
+			<div v-else>
+				Not A/B/C
+			</div>
+
+		</div>
+		
+		
+		
+		<!--v-show 指令的使用-->
+		<div class="test_show">
+			<h1 v-show="show"> show is true</h1>
+		</div>
+		
+		
+		
+		<!--v-for指令的使用-->
+		<div class="test_for">
+			<ul>
+				<li v-for="li in lists" v-bind:data-id="li.id">
+					{{ li.id }}
+				</li>
+			</ul>
+		</div>
+		
+		
+		<!--v-for指令的使用  当前的序号-->
+		<div class="test_for2">
+			<ul>
+				<li v-for="(li,index) in lists">
+					{{ index+1 }}-{{ li.text }}
+				</li>
+			</ul>
+		</div>
+		
+		
+		<!--v-for指令的使用  json数据-->
+		<div class="test_for3">
+			<ul>
+				<li v-for="(li,key,index) in list_json">
+					{{index+1}}-{{key}}-{{ li }}
+				</li>
+			</ul>
+		</div>
+		
+		
+		<!--v-for指令的使用  过滤输出结果(奇数)-->
+		<div class="test_for4">
+			<ul>
+				<li v-for="li in guolv">
+					{{ li }}
+				</li>
+			</ul>
+		</div>
+		
+		
+		<!--v-for指令的使用  过滤输出结果(偶数)-->
+		<div class="test_for5">
+			<ul>
+				<li v-for="li in guolv(lists)">
+					{{ li }}
+				</li>
+			</ul>
+			
+			
+			<span v-for="n in 10">{{ n }} </span>
+		</div>
+	
+
+
+	</body>
+	<script type="text/javascript">
+		var test_bind = new Vue({
+			el: '#test_bind',
+			data: {
+				classname: 'test_bind'
+			}
+		});
+
+		var test_bind2 = new Vue({
+			el: '#test_bind2',
+			data: {
+				classname: 'test_bind'
+			}
+		});
+
+		var test_bind3 = new Vue({
+			el: '#test_bind3',
+			data: {
+				classname: true,
+				classname2: true
+			}
+		});
+
+		var test_bind4 = new Vue({
+			el: '#test_bind4',
+			data: {
+				isname: true,
+				isname2: true
+			}
+		});
+
+		var test_on = new Vue({
+			el: '#test_on',
+			data: {
+				name: 'v-on 指令'
+			},
+			methods: {
+				changecolor: function() {
+					alert('1111');
+				}
+			}
+		});
+
+		var test_on2 = new Vue({
+			el: '#test_on2',
+			data: {
+				name: 'v-on 缩写指令'
+			},
+			methods: {
+				changecolor: function() {
+					alert('2222');
+				}
+			}
+		});
+
+		var test_if = new Vue({
+			el: '.test_if',
+			data: {
+				true_false: false,
+				type:'D'
+			}
+		})
+		
+		
+		var test_show = new Vue({
+			el:'.test_show',
+			data:{
+				show:true
+			}
+		})
+		test_show.show = true;
+		
+		
+		var test_for = new Vue({
+			el:'.test_for',
+			data:{
+				lists:[
+					{	
+						id:1
+					},
+					{
+						id:2
+					},
+						
+					{
+						id:3
+					},
+					{
+						id:4
+					}
+				]
+			}
+		})
+		
+		
+		var test_for2 = new Vue({
+			el:'.test_for2',
+			data:{
+				lists:[
+					{text:'列表一'},
+					{text:'列表二'},
+					{text:'列表三'},
+					{text:'列表四'}
+				]
+			}
+		})
+		
+		
+		var test_for3 = new Vue({
+			el:'.test_for3',
+			data:{
+				
+				list_json:{
+					listone:'列表一',
+					listtwo:'列表二',
+					listthr:'列表三'
+				}
+			}
+		})
+		
+		Vue.set(test_for3.list_json, 'money', 100)
+		test_for3.list_json = Object.assign({}, test_for3.list_json, {
+		  		age: 27,
+		  		favoriteColor: 'Vue Green'
+		})
+		
+		
+		
+		var test_for4 = new Vue({
+			el:'.test_for4',
+			data:{
+				lists:[1,2,3,4,5,6]
+			},
+			computed:{
+				guolv:function(){
+					return this.lists.filter(function (num) {
+      					return num % 2 === 1
+    				})
+				}
+			}
+		})
+		
+		
+		var test_for5 = new Vue({
+			el:'.test_for5',
+			data:{
+				lists:[1,2,3,4,5,6]
+			},
+			methods:{
+				guolv:function(lists){
+					return lists.filter(function (num) {
+      					return num % 2 === 0
+    				})
+				}
+			}
+		})
+	</script>
+
+</html>
