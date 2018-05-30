@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<title>手势解锁_2</title>
+		<style type="text/css">
+			html,
+			body {
+				height: 100%;
+				width: 100%;
+				margin: 0;
+				padding: 0;
+			}
+			
+			#onecanvas {
+				border: 1px solid #000;
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%, -50%);
+			}
+		</style>
+	</head>
+
+	<body>
+		<canvas id="onecanvas" width="300px" height="300px"></canvas>
+		<script type="text/javascript">
+			//绑定画布 并且创建画布
+			var oCanvas = document.getElementById('onecanvas');
+			var obj_oCanvas = oCanvas.getContext('2d');
+
+			//画圆  （需要半径  圆心坐标）
+			//根据画布宽度计算圆的半径   为了使圆相对隔开 每个圆之间放置半径的间距  并且计算圆心的位置
+			var r, x, y, cir_pos = [];
+
+			function createCircle() {
+
+				//根据画布宽度计算半径
+				r = obj_oCanvas.canvas.width / (2 + 12);
+				//计算每个圆的圆心坐标
+				for(var i = 0; i < 3; i++) {
+					for(var j = 0; j < 3; j++) {
+						x = j * 4 * r + 3 * r;
+						y = i * 4 * r + 3 * r;
+						//储存圆心坐标
+						cir_pos.push({
+							x,
+							y
+						});
+					}
+				}
+			}
+			createCircle();
+			var pos_obj;
+			pos_obj = [].concat(cir_pos);
+			//画圆 
+			function drawCicle() {
+
+				for(var i = 0; i < cir_pos.length; i++) {
+
+					//画圆
+					obj_oCanvas.beginPath();
+					obj_oCanvas.arc(cir_pos[i].x, cir_pos[i].y, r, 0, 2 * Math.PI);
+					obj_oCanvas.closePath();
+					obj_oCanvas.stroke();
+
+					//画圆心
+					obj_oCanvas.fillStyle = '#CFE6FF';
+					obj_oCanvas.beginPath();
+					obj_oCanvas.arc(cir_pos[i].x, cir_pos[i].y, r / 2, 0, 2 * Math.PI);
+					obj_oCanvas.closePath();
+					obj_oCanvas.fill()
+				}
+			}
+			drawCicle();
+
+			//获取触摸点在画布中的位置
+			var rect_p;
+			var rect_arr = [];
+
+			function getTouch_pos(e) {
+				//触摸点的位置；
+				var e = e || window.event;
+				var rect = e.currentTarget.getBoundingClientRect();
+
+				//返回触摸点相对位置
+				rect_p = {
+					p_x: e.clientX - rect.left,
+					p_y: e.clientY - rect.top
+				};
+
+				//储存触摸点坐标
+				rect_arr.push(rect_p);
+
+				//返回当前的触摸点
+				return rect_p;
+			}
+
+			//画线的方法
+			function drawLine() {
+				obj_oCanvas.beginPath();
+				obj_oCanvas.lineWidth = 1;
+				obj_oCanvas.moveTo(moved_pos[0].x, moved_pos[0].y);
+
+				for(var i = 1; i < moved_pos.length; i++) {
+					obj_oCanvas.lineTo(moved_pos[i].x, moved_pos[i].y);
+				}
+				obj_oCanvas.lineTo(rect_p.p_x, rect_p.p_y);
+				obj_oCanvas.stroke();
+				obj_oCanvas.closePath();
+			}
+
+			//画线的方法
+			function drawLine2() {
+				obj_oCanvas.beginPath();
+				obj_oCanvas.lineWidth = 1;
+				obj_oCanvas.moveTo(moved_pos[0].x, moved_pos[0].y);
+
+				for(var i = 1; i < moved_pos.length; i++) {
+					obj_oCanvas.lineTo(moved_pos[i].x, moved_pos[i].y);
+				}
+				obj_oCanvas.stroke();
+				obj_oCanvas.closePath();
+			}
+
+			//鼠标移动监听事件
+			var moved_pos = [];
+			oCanvas.onmousemove = function() {
+				obj_oCanvas.clearRect(0, 0, obj_oCanvas.canvas.width, obj_oCanvas.canvas.height);
+				drawCicle();
+				getTouch_pos();
+
+				//判断触摸点是否在圆内
+				for(var i = 0; i < pos_obj.length; i++) {
+
+					if(Math.abs(rect_p.p_x - pos_obj[i].x) < r && Math.abs(rect_p.p_y - pos_obj[i].y) < r) {
+						//储存已经触碰到过的圆的圆心坐标
+						moved_pos.push(pos_obj[i]);
+						pos_obj.splice(i, 1);
+						break;
+					}
+				}
+
+				if(moved_pos.length > 0) {
+					
+					
+					for(var j=0;j<moved_pos.length;j++){
+						obj_oCanvas.fillStyle = '#000000';
+						obj_oCanvas.beginPath();
+						obj_oCanvas.arc(moved_pos[j].x, moved_pos[j].y, r / 2, 0, 2 * Math.PI);
+						obj_oCanvas.closePath();
+						obj_oCanvas.fill()
+					}
+					
+					drawLine();
+				}
+
+			}
+
+			oCanvas.onmouseout = function() {
+				pos_obj = [].concat(cir_pos);
+				moved_pos = [];
+				obj_oCanvas.clearRect(0, 0, obj_oCanvas.canvas.width, obj_oCanvas.canvas.height);
+				drawCicle();
+				getTouch_pos();
+				//				drawLine2();
+			}
+		</script>
+	</body>
+
+</html>
