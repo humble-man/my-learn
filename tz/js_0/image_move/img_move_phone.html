@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>图片拖拽</title>
+		<style type="text/css">
+			*{
+				margin: 0;
+				padding: 0;
+			}
+			html, body{
+				height: 100%;
+				width: 100%;
+			}
+			body{
+				background: #000;
+			}
+			.content{
+				position: fixed;
+				top: 0;
+				left: 0;
+				right: 0;
+				bottom: 0;
+				margin: auto;
+				width: 300px;
+				height: 300px;
+			}
+			
+			ul,li{
+				width: 100%;
+				height: 100%;
+			}
+			ul li{
+				list-style: none;
+				position: absolute;
+			}
+			ul li img{
+				width: 100%;
+				height: 100%;
+			}
+		</style>
+		
+	</head>
+	<body>
+		<div class="content">
+			
+			<ul>
+				<li><img src="https://img3.duitang.com/uploads/item/201603/04/20160304005052_AmCtJ.png" alt="" /></li>
+			</ul>
+			
+		</div>
+		
+		<script type="text/javascript">
+			
+			//获取li元素
+			var oLi = document.querySelectorAll('li');
+			
+			//获取content元素
+			var oContent = document.querySelector('.content');
+			
+			//计算图片能移动的最大范围值
+			
+			//左右的最大移动范围
+			var max_left = (window.innerWidth - oContent.offsetWidth)/2;
+			var min_left = -max_left;
+			
+			//上下的最大移动范围
+			var max_top = (window.innerHeight - oContent.offsetHeight)/2;
+			var min_top = -max_top;
+			
+			//定义定时器
+			var timer = null;
+			
+			//计算碰撞时需要的速度   （需要 ： 鼠标移动最后一个以及倒数第二个坐标点的位置坐标（利用两者计算碰撞初速度））
+			//定义变量 储存最后一个点的坐标
+			var lastX , lastY;
+			//定义储存碰撞时初速度的值
+			var speed_X ,speed_Y;
+			
+			
+			//定义pc或移动端
+			
+			
+			
+			//遍历所有的li
+			for (var i=0; i<oLi.length; i++) {
+				
+				//给每个li添加鼠标点击函数
+				oLi[i].ontouchstart = function(e){
+				
+					var touches = e.touches[0];
+					//停止定时器
+					clearInterval(timer);
+					
+					//获取鼠标点击后的坐标位置
+					var start_X = touches.clientX;
+					var start_Y = touches.clientY;
+					
+					//获取当前li的位置
+					var li_startX = this.offsetLeft;
+					var li_startY = this.offsetTop;
+					
+					//鼠标移动的事件
+					document.ontouchmove = function(e){
+						var touches = e.touches[0];
+						//获取鼠标移动后的位置坐标
+						var move_X = touches.clientX;
+						var move_Y = touches.clientY;
+						
+						
+						//计算并储存初速度
+						speed_X = move_X - lastX;
+						speed_Y = move_Y - lastY;
+						
+						
+						lastX = touches.clientX;
+						lastY = touches.clientY;
+						
+						
+						
+						
+						//计算li应该移动的距离
+						var move_left = li_startX + move_X - start_X;
+						var move_top = li_startY + move_Y - start_Y;
+						
+						
+						//鼠标移动后的边界检测
+						
+						//左右边界检测
+						move_left = Math.max(move_left,min_left);
+						move_left = Math.min(move_left,max_left);
+						
+						//上下边界检测
+						move_top = Math.max(move_top,min_top);
+						move_top = Math.min(move_top,max_top);
+						
+						
+						//改变li的位置
+						this.style.top = move_top + 'px';
+						this.style.left = move_left + 'px';
+						
+						
+						
+						
+						//鼠标释放事件
+						document.ontouchend = function(e){
+							var touches = e.touches[0];
+							//鼠标释放  移除鼠标移动事件
+							document.ontouchmove = null;
+							
+							//添加定时器  实现拖拽碰撞回弹效果
+							timer = setInterval(function(){
+								//逐渐减小初速度
+								speed_X *= 0.8;
+								speed_Y *= 0.8;
+								
+								//初速度小于0.5后停止定时器
+								if(Math.abs(speed_X)<0.5 && Math.abs(speed_Y)<0.5){
+									clearInterval(timer);
+								}
+								
+								
+								//发生碰撞后改变速度的方向
+								if(move_left < min_left){
+									speed_X = -speed_X
+								}
+								if(move_left > max_left){
+									speed_X = -speed_X;
+								}
+								if(move_top < min_top){
+									speed_Y = -speed_Y;
+								}
+								if(move_top > max_top){
+									speed_Y = -speed_Y;
+								}
+								
+								
+								//鼠标移动释放的边界检测
+								//左右边界检测
+								move_left = Math.max(move_left,min_left);
+								move_left = Math.min(move_left,max_left);
+								
+								//上下边界检测
+								move_top = Math.max(move_top,min_top);
+								move_top = Math.min(move_top,max_top);
+								
+								
+								move_top += speed_Y;
+								move_left += speed_X;
+								
+								//改变li的位置
+								this.style.top = move_top + 'px';
+								this.style.left = move_left + 'px';
+								
+								
+								
+							}.bind(this),20);
+
+						}.bind(this);
+						
+						
+						
+						
+					}.bind(this);
+					
+					
+					//阻止浏览器默认的事件（默认图片不能被拖拽）
+					document.addEventListener("touchmove",defaultEvent,false);
+					
+				}
+				
+				
+			}
+			
+			
+		</script>
+		
+	</body>
+</html>
