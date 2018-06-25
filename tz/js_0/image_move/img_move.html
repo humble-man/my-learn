@@ -82,25 +82,25 @@
 			for (var i=0; i<oLi.length; i++) {
 				
 				//给每个li添加鼠标点击函数
-				oLi[i].onmousedown = function(e){
-					
+				oLi[i].ontouchstart = function(e){
+					var t = e || event;
 					//停止定时器
 					clearInterval(timer);
 					
 					//获取鼠标点击后的坐标位置
-					var start_X = e.clientX;
-					var start_Y = e.clientY;
+					var start_X = t.clientX;
+					var start_Y = t.clientY;
 					
 					//获取当前li的位置
 					var li_startX = this.offsetLeft;
 					var li_startY = this.offsetTop;
 					
 					//鼠标移动的事件
-					document.onmousemove = function(e){
-						
+					document.ontouchmove = function(e){
+						var t = e || event;
 						//获取鼠标移动后的位置坐标
-						var move_X = e.clientX;
-						var move_Y = e.clientY;
+						var move_X = t.clientX;
+						var move_Y = t.clientY;
 						
 						
 						//计算并储存初速度
@@ -138,10 +138,10 @@
 						
 						
 						//鼠标释放事件
-						document.onmouseup = function(e){
-							
+						document.ontouchend = function(e){
+							var t = e || event;
 							//鼠标释放  移除鼠标移动事件
-							document.onmousemove = null;
+							document.ontouchmove = null;
 							
 							//添加定时器  实现拖拽碰撞回弹效果
 							timer = setInterval(function(){
