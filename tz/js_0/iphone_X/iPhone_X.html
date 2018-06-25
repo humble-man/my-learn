@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>iphone_X 刘海适配问题</title>
+		<style type="text/css">
+			*{
+				margin: 0;
+				padding: 0;
+			}
+			*::-webkit-scrollbar{
+				padding-left: 100px;
+			}
+			.iphone{
+				position: relative;
+				height: 300px;
+				width: 600px;
+				border: 5px solid #000;
+				margin: 200px auto 0;
+				border-radius: 30px;
+			}
+			.creame{
+				position: absolute;
+				width: 30px;
+				height: 140px;
+				top: 80px;
+				left: 0;
+				background: #000;
+				border-radius: 0 30px 30px 0;
+			}
+			.content,ul{
+				width: 100%;
+				height: 100%;
+			}
+			.content{
+				overflow: hidden;
+				overflow-y: scroll;
+			}
+			ul{
+				padding-left: 10px;
+			}
+			ul li{
+				list-style: none;
+				padding-left: 10px;
+			}
+			li+li{
+				border-top: 1px solid #ccc;
+			}
+		</style>
+	</head>
+	<body>
+		
+		<div class="iphone">
+			<div class="content">
+				<ul>
+					<li>fdsafsd</li>
+					<li>fdsafsd</li>
+					<li>fdsafsd</li>
+					<li>fdsafsd</li>
+					<li>fdsafsd</li>
+					<li>fdsafsd</li>
+					<li>fdsafsd</li>
+					<li>fdsafsd</li>
+					<li>fdsafsd</li>
+					<li>fdsafsd</li>
+					<li>fdsafsd</li>
+					<li>fdsafsd</li>
+					<li>fdsafsd</li>
+					<li>fdsafsd</li>
+					<li>fdsafsd</li>
+					<li>fdsafsd</li>
+					<li>fdsafsd</li>
+					<li>fdsafsd</li>
+					<li>fdsafsd</li>
+					<li>fdsafsd</li>
+				</ul>
+			</div>
+			<div class="creame"></div>
+		</div>
+		
+		
+		<script type="text/javascript">
+			var oLi = document.querySelectorAll('li');
+			var oCreame = document.querySelector('.creame');
+			var oContent = document.querySelector('.content');
+			
+			// 驼峰值
+			var start_top = 20;
+			//最大偏移量
+			var max_left = 30;
+			
+			
+			//move（）
+			~function move(){
+				oContent.onscroll = arguments.callee;
+				for(var i=0; i<oLi.length; i++){
+					
+					//li 地边相对顶端的距离  下边相对顶端的距离
+					var li_top = oLi[i].getBoundingClientRect().top;
+					var li_btm = oLi[i].getBoundingClientRect().bottom;
+					//creame 上边相对顶端的距离  下边相对顶端的距离
+					var creame_top = oCreame.getBoundingClientRect().top;
+					var creame_btm = oCreame.getBoundingClientRect().bottom;
+					
+					// li的底边相对creame上边的距离  以及底边相对creame底边的距离
+					var top_dic	= li_btm - creame_top;
+					var btm_dic = li_btm - creame_btm; 
+					
+					console.log(top_dic);
+					//上边位置达到托峰值范围  li 发生位置偏移
+					if(Math.abs(top_dic)<start_top){
+						oLi[i].style.webkitTransform = 'translateX('+left_num(0,max_left,time(start_top,top_dic))+'px)';
+					}
+					//下班位置达到托峰值范围
+					else if(Math.abs(btm_dic)<start_top){
+						oLi[i].style.webkitTransform = 'translateX('+left_num(max_left,0,time(start_top,btm_dic))+'px)';
+					}
+					//驼峰范围内的所有li 都发生偏移
+					else if(top_dic>(-20)&&btm_dic<20){
+						oLi[i].style.webkitTransform = 'translateX('+max_left+'px)';
+					}
+					//其他所有li偏移量都为0
+					else{
+						oLi[i].style.webkitTransform = 'translateX('+0+'px)';
+					}
+				}
+			}();
+			
+			//时间函数
+			function time(start_top,top_dic){
+				return (start_top + top_dic)/(start_top*2);
+			}
+			
+			//偏移量计算
+			function left_num(start_left,max_left,t){
+				return (max_left - start_left)*t + start_left;
+			}
+		</script>
+
+	</body>
+</html>
