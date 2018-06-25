@@ -104,8 +104,8 @@
 						
 						
 						//计算并储存初速度
-						speed_X = lastX - move_X;
-						speed_Y = lastY - move_Y;
+						speed_X = move_X - lastX;
+						speed_Y = move_Y - lastY;
 						
 						
 						lastX = e.clientX;
