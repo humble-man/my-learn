@@ -83,7 +83,6 @@
 				
 				//给每个li添加鼠标点击函数
 				oLi[i].onmousedown = function(e){
-					
 					//停止定时器
 					clearInterval(timer);
 					
@@ -97,15 +96,14 @@
 					
 					//鼠标移动的事件
 					document.onmousemove = function(e){
-						
 						//获取鼠标移动后的位置坐标
 						var move_X = e.clientX;
 						var move_Y = e.clientY;
 						
 						
 						//计算并储存初速度
-						speed_X = lastX - move_X;
-						speed_Y = lastY - move_Y;
+						speed_X = move_X - lastX;
+						speed_Y = move_Y - lastY;
 						
 						
 						lastX = e.clientX;
@@ -139,7 +137,6 @@
 						
 						//鼠标释放事件
 						document.onmouseup = function(e){
-							
 							//鼠标释放  移除鼠标移动事件
 							document.onmousemove = null;
 							
