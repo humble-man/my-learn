@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html ondragstart="return false">
+	<head>
+		<meta charset="UTF-8">
+		<title>3D 相册</title>
+		<style type="text/css">
+			*{
+				margin: 0;
+				padding: 0;
+			}
+			html,body{
+				height: 100%;
+			}
+			body{
+				background-color: #000;
+				overflow: hidden;
+			}
+			.content{
+				perspective: 800px;
+			}
+			.wrap{
+				position: relative;
+				width: 100px;
+				height: 150px;
+				margin: 300px auto;
+				transform-style:preserve-3d;
+				transform: rotateX(-15deg) rotateY(0deg);
+			}
+			.wrap img{
+				width: 100%;
+				height: 100%;
+				position: absolute;
+				border:1px solid aqua;
+				box-shadow: 0 0 5px aqua;
+			}
+			.txt{
+				position: absolute;
+			    width: 100%;
+			    color: #fff;
+			    line-height: 30px;
+			    text-align: center;
+			    display: flex;
+			    justify-content: center;
+			    align-items: center;
+			    height: 100%;
+			}
+		</style>
+	</head>
+	<body>
+		
+		<div class="content">
+			<div class="wrap">
+				<div class="txt"></div>
+				<img src="img/11.jpg"/>
+				<img src="img/22.jpg"/>
+				<img src="img/33.jpg"/>
+				<img src="img/44.jpg"/>
+				<img src="img/55.jpg"/>
+				<img src="img/66.jpg"/>
+				<img src="img/77.jpg"/>
+				<img src="img/88.jpg"/>
+				<img src="img/99.jpg"/>
+			</div>
+		</div>
+		<script type="text/javascript">
+			//获取img
+			var oImg = document.querySelectorAll('img');
+			//旋转角度计算
+			var deg = 360/oImg.length;
+			//获取wrap
+			var oWrap = document.querySelector('.wrap');
+			//定时器
+			var timer = null;
+			var k = 1;
+			
+			var one_x = oWrap.offsetWidth+20;
+			var one_y = oWrap.offsetHeight+20;
+			
+			
+			window.onload = function(){
+				//遍历所有img
+				Array.prototype.forEach.call(oImg,function(ele,index,self){
+					
+					
+					if(index<3){
+						ele.style.transform = 'translateX('+((index-1)*one_x)+"px) translateY("+(-one_y)+"px) rotate(0deg)";
+					}else if(index>2 && index <6){
+						ele.style.transform = 'translateX('+((index-4)*one_x)+"px) translateY("+0+"px) rotate(0deg)";
+					}else if(index>5 && index<9){
+						ele.style.transform = 'translateX('+((index-7)*one_x)+"px) translateY("+one_y+"px) rotate(0deg)";
+					}
+					ele.style.transition = "1s " +(oImg.length - index)*0.1 +"s";
+					
+					
+					//点击收回图片
+					ele.onclick = function(){
+							k++;
+							ele.style.transform = "translateX("+0+"px) translateY("+0+"px) rotate(360deg)";
+							ele.style.transition = "1s";
+							
+							if(k>9){
+								k = 0;
+								oWrap.onclick = function(){
+									 window.location.reload();
+								}
+							}
+					}
+					
+					
+				});
+			}
+			
+			
+			//拖拽
+			
+			//定义变量储存鼠标的坐标
+			var moveX,moveY,lastX,lastY,changX,changY;
+			
+			var endX = -15,endY = 0;
+			var startX = 0 , startY = 0;
+			
+			document.onmousedown = function(e){
+				
+				clearInterval(timer);
+				lastX = e.clientX;
+				lastY = e.clientY;
+				
+				this.onmousemove = function(e){
+
+					moveX = e.clientX;
+					moveY = e.clientY;
+					
+					changX = moveX - lastX;
+					changY = moveY - lastY;
+					
+					lastX = moveX;
+					lastY = moveY;
+					
+					endX -= changY * 0.2;
+					endY += changX * 0.2;
+					
+					startX = endX;
+					startY = endY;
+					
+					oWrap.style.transform = "rotateX("+(startX)+"deg) rotateY("+startY+"deg)";
+					
+				}
+				
+				this.onmouseup = function(e){
+					
+					this.onmousemove = null;
+					
+				}
+				
+			}
+		</script>
+	</body>
+</html>
