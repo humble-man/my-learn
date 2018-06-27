@@ -26,15 +26,15 @@
 				margin: auto;
 			}
 			.wrap{
-				perspective: 1000px;
+				perspective: 600px;
 			}
 			.test{
 				position: relative;
 				width: 200px;
 				height: 300px;
 				transform-style:preserve-3d;
-				transform: rotateX(0deg) rotateY(-15deg);
-				margin-left: 50%;
+				transform: rotateX(0deg) rotateY(0deg);
+				margin: auto;
 			}
 			.test .azj{
 				position: absolute;
@@ -83,7 +83,7 @@
 			window.onload = function(){
 				//遍历所有img
 				Array.prototype.forEach.call(oImg,function(ele,index,self){
-					ele.style.transform = 'rotateX('+(deg*index)+"deg) translateZ(300px)";
+					ele.style.transform = 'rotateX('+(deg*index)+"deg) translateZ(350px)";
 					ele.style.transition = "1s " +(oImg.length - index)*0.1 +"s";
 					
 					//点击收回图片
@@ -112,7 +112,7 @@
 			//定义变量储存鼠标的坐标
 			var moveX,moveY,lastX,lastY,changX,changY;
 			
-			var endX = -15 ,endY = 0;
+			var endX = 0 ,endY = 0;
 			var startX = 0 , startY = 0;
 			
 			document.ontouchstart = function(e){
@@ -130,32 +130,32 @@
 					lastX = moveX;
 					lastY = moveY;
 					
-					endX += changX * 0.2;
-					endY -= changY * 0.2;
+					endX -= changY * 0.2;
+					endY -= changX * 0.2;
 					
 					startX = endX;
 					startY = endY;
 					
 					
-					oTest.style.transform = "rotateX("+(endY)+"deg) rotateY("+endX+"deg)";
+					oTest.style.transform = "rotateX("+(startX)+"deg) rotateY(0deg)";
 				}
 				
 				this.ontouchend = function(e){
 					
 					this.ontouchmove = null;
-//					timer = setInterval(function(){
-//						
-//						changY *= 0.8;
-//						
-//						//初速度小于0.5后停止定时器
-//						if( Math.abs(changY)<0.5){
-//							clearInterval(timer);
-//						}
-//						
-//						startY += changY;
-//						oTest.style.transform = "rotateX("+(startY)+"deg) rotateY("+startX+"deg)";
-//
-//					},20);
+					timer = setInterval(function(){
+						
+						changY *= 0.8;
+						
+						//初速度小于0.5后停止定时器
+						if( Math.abs(changY)<0.5){
+							clearInterval(timer);
+						}
+						
+						startX -= changY;
+						oTest.style.transform = "rotateX("+(startX)+"deg) rotateY(0deg)";
+
+					},20);
 					
 				}
 				
