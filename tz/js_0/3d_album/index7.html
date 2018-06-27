@@ -74,10 +74,8 @@
 			
 			//获取img
 			var oImg = document.querySelectorAll('.test .azj');
-			console.log("img 个数 --- "+oImg.length);
 			//旋转角度计算
 			var deg = 360/(oImg.length);
-			console.log('角度 --- '+deg);
 			
 			//定时器
 			var timer = null;
@@ -102,13 +100,13 @@
 			var startX = 0 , startY = 0;
 			
 			document.ontouchstart = function(e){
-				
+				alert('开始');
 				clearInterval(timer);
 				lastX = e.touches[0].clientX;
 				lastY = e.touches[0].clientY;
 				
 				this.ontouchmove = function(e){
-
+					alert('开始2');
 					moveX = e.touches[0].clientX;
 					moveY = e.touches[0].clientY;
 					
@@ -127,7 +125,7 @@
 				}
 				
 				this.ontouchmove = function(e){
-					
+					alert('开始3');
 					this.onmousemove = null;
 					timer = setInterval(function(){
 						
