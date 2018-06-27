@@ -26,17 +26,15 @@
 				margin: auto;
 			}
 			.wrap{
-				perspective: 1000px;
+				perspective: 600px;
 			}
 			.test{
 				position: relative;
 				width: 200px;
 				height: 300px;
-				background: dodgerblue;
-				perspective: 800px;
 				transform-style:preserve-3d;
-				transform: rotateX(0deg) rotateY(-15deg);
-				margin-left: 50%;
+				transform: rotateX(0deg) rotateY(0deg);
+				margin: auto;
 			}
 			.test .azj{
 				position: absolute;
@@ -79,13 +77,31 @@
 			
 			//定时器
 			var timer = null;
+			var k = 0;
 			
 			
 			window.onload = function(){
 				//遍历所有img
 				Array.prototype.forEach.call(oImg,function(ele,index,self){
-					ele.style.transform = 'rotateX('+(deg*index)+"deg) translateZ(300px)";
+					ele.style.transform = 'rotateX('+(deg*index)+"deg) translateZ(350px)";
 					ele.style.transition = "1s " +(oImg.length - index)*0.1 +"s";
+					
+					//点击收回图片
+					ele.onclick = function(){
+							k++;
+							ele.style.transform = 'rotateY(0deg) translateZ(0px)';
+							ele.style.transition = "1s";
+							
+							if(k>=7){
+								k = 0;
+								oTest.onclick = function(){
+									 window.location.reload();
+								}
+							}
+					}
+					
+					
+					
 				});
 			}
 			
@@ -96,17 +112,15 @@
 			//定义变量储存鼠标的坐标
 			var moveX,moveY,lastX,lastY,changX,changY;
 			
-			var endX = 0 ,endY = -15;
+			var endX = 0 ,endY = 0;
 			var startX = 0 , startY = 0;
 			
 			document.ontouchstart = function(e){
-				alert('开始');
 				clearInterval(timer);
 				lastX = e.touches[0].clientX;
 				lastY = e.touches[0].clientY;
 				
 				this.ontouchmove = function(e){
-					alert('开始2');
 					moveX = e.touches[0].clientX;
 					moveY = e.touches[0].clientY;
 					
@@ -116,35 +130,30 @@
 					lastX = moveX;
 					lastY = moveY;
 					
-					endX -= changX * 0.2;
-					endY += changY * 0.2;
+					endX -= changY * 0.2;
+					endY -= changX * 0.2;
 					
 					startX = endX;
 					startY = endY;
 					
+					
+					oTest.style.transform = "rotateX("+(startX)+"deg) rotateY(0deg)";
 				}
 				
-<<<<<<< HEAD
 				this.ontouchend = function(e){
 					
-=======
-				this.ontouchmove = function(e){
-					alert('开始3');
->>>>>>> e5005bf7fd5a93ddd953308bcc149a33a0f29fa9
-					this.onmousemove = null;
+					this.ontouchmove = null;
 					timer = setInterval(function(){
 						
-						changX *= 0.8;
 						changY *= 0.8;
 						
 						//初速度小于0.5后停止定时器
-						if(Math.abs(changX)<0.5 && Math.abs(changY)<0.5){
+						if( Math.abs(changY)<0.5){
 							clearInterval(timer);
 						}
 						
-						startX -= changX;
-						startY += changY;
-						oTest.style.transform = "rotateX("+(startX)+"deg) rotateY("+startY+"deg)";
+						startX -= changY;
+						oTest.style.transform = "rotateX("+(startX)+"deg) rotateY(0deg)";
 
 					},20);
 					
