@@ -126,7 +126,7 @@
 					
 				}
 				
-				this.ontouchmove = function(e){
+				this.ontouchend = function(e){
 					
 					this.onmousemove = null;
 					timer = setInterval(function(){
@@ -141,7 +141,7 @@
 						
 						startX -= changX;
 						startY += changY;
-						oWrap.style.transform = "rotateX("+(startX)+"deg) rotateY("+startY+"deg)";
+						oTest.style.transform = "rotateX("+(startX)+"deg) rotateY("+startY+"deg)";
 
 					},20);
 					
