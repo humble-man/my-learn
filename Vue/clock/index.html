@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>闹钟</title>
+		<style type="text/css">
+			* {
+				margin: 0;
+				padding: 0;
+			}
+			
+			.box {
+				margin: auto;
+				width: 500px;
+				height: 500px;
+				background: red;
+				border-radius: 50%;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+			}
+			
+			.bg {
+				position: relative;
+				width: 440px;
+				height: 440px;
+				border: 10px solid #b70d0d;
+				background: #FFF;
+				border-radius: 50%;
+			}
+			
+			.dian {
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				width: 440px;
+				height: 10px;
+			}
+			
+			.nums {
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				width: 440px;
+				height: 25px;
+				text-align: left;
+				font-size: 25px;
+				z-index: 2;
+			}
+			
+			.ro span{
+				display: block;
+				width: 20px;
+				height: 25px;
+				line-height: 25px;
+				transform: rotate(-90deg);
+				margin-left: 20px;
+				z-index: 2;
+			}
+			
+			.no span{
+				display: block;
+				width: 20px;
+				height: 25px;
+				line-height: 25px;
+				transform: rotate(90deg);
+				margin-left: 20px;
+				z-index: 2;
+			}
+			
+			.dian:before {
+				content: "";
+				position: absolute;
+				top: 0;
+				left: 5px;
+				width: 10px;
+				height: 10px;
+				background: #a3a3a3;
+				border-radius: 50%;
+			}
+			
+			.dian:nth-child(5n+1):before {
+				content: "";
+				position: absolute;
+				top: 0;
+				left: 0;
+				width: 15px;
+				height: 10px;
+				background: #666665;
+				border-radius: 0%;
+			}
+			
+			.dian:after {
+				content: "";
+				position: absolute;
+				bottom: 0;
+				right: 5px;
+				width: 10px;
+				height: 10px;
+				background: #a3a3a3;
+				border-radius: 50%;
+			}
+			
+			.dian:nth-child(5n+1):after {
+				content: "";
+				position: absolute;
+				bottom: 0;
+				right: 0;
+				width: 15px;
+				height: 10px;
+				background: #666665;
+				border-radius: 0%;
+			}
+			
+			.center_box {
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				width: 15px;
+				height: 15px;
+				background: #B70D0D;
+				border-radius: 50%;
+				border: 5px solid #e9897b;
+				transform: translate(-50%, -50%);
+				z-index: 2;
+			}
+			
+			.h_line,
+			.m_line,
+			.s_line {
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				display: flex;
+			}
+			
+			.h_line .right {
+				flex: 1;
+				background: #666665;
+			}
+			
+			.m_line .right {
+				flex: 1;
+				background: #666665;
+			}
+			
+			.s_line .right {
+				flex: 1;
+				background: #e9897b;
+			}
+			
+			.h_line .left,
+			.m_line .left,
+			.s_line .left {
+				flex: 1;
+				background: transparent;
+			}
+			
+			.h_line {
+				height: 15px;
+				width: 150px;
+				transform: translate(-50%, -50%) rotate(45deg);
+			}
+			
+			.m_line {
+				height: 15px;
+				width: 300px;
+				transform: translate(-50%, -50%) rotate(90deg);
+			}
+			
+			.s_line {
+				height: 15px;
+				width: 400px;
+				transform: translate(-50%, -50%) rotate(135deg);
+				z-index: 1;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="box">
+			<div class="bg">
+				<div class="dian" v-for='n in num' :style='"transform:translate(-50%,-50%) rotate("+((n-1)*6-90)+"deg);"'></div>
+				<div v-for='(i,index) in time' key='index' :class="[index==6?'nums no':'nums ro']" :style='"transform:translate(-50%,-50%) rotate("+((index-1)*30+120)+"deg);"'><span>{{i}}</span></div>
+				<div class="center_box"></div>
+				<div class="h_line" id="h_line">
+					<div class="left"></div>
+					<div class="right"></div>
+				</div>
+				<div class="m_line" id="m_line">
+					<div class="left"></div>
+					<div class="right"></div>
+				</div>
+				<div class="s_line" id="s_line">
+					<div class="left"></div>
+					<div class="right"></div>
+				</div>
+			</div>
+		</div>
+		<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+		<script type="text/javascript">
+			var app = new Vue({
+				el: '.box',
+				data: {
+					num: 30,
+					time: [12, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+				},
+				create: function() {
+					var _this = this;
+				},
+				mounted: function() {
+					var _this = this;
+					_this.$nextTick(function() {
+						setInterval(_this.tranform, 1000);
+						_this.tranform();
+					})
+				},
+				methods: {
+					times: function() {
+						var date = new Date();
+						var aTime = document.getElementById('aTime');
+						var str = addzero(date.getHours()) + ":" + addzero(date.getMinutes()) + ":" + addzero(date.getSeconds());
+						aTime.innerHTML = str;
+					},
+					tranform: function() {
+						var date = new Date();
+						var hours = document.getElementById('h_line');
+						var minutes = document.getElementById('m_line');
+						var seconds = document.getElementById('s_line');
+						var num = date.getHours();
+						var num2 = date.getMinutes();
+						var num3 = date.getSeconds();
+
+						hours.style.transform = "translate(-50%, -50%) rotate(" + (num * 30 - 90) + "deg)";
+						minutes.style.transform = "translate(-50%, -50%) rotate(" + (num2 * 6 - 90) + "deg)";
+						seconds.style.transform = "translate(-50%, -50%) rotate(" + (num3 * 6 - 90) + "deg)";
+					},
+					addzero: function() {
+						if(num >= 10) {
+							return "" + num;
+						} else {
+							return "0" + num;
+						}
+					}
+				}
+			})
+		</script>
+	</body>
+
+</html>
