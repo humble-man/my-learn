@@ -12,9 +12,9 @@
 				padding: 0;
 			}
 			
-			html,body{
+			/*html,body{
 				background: #fff;
-			}
+			}*/
 			
 			.rl_title {
 				position: relative;
@@ -241,7 +241,6 @@
 							var dayobject = {}; //用一个对象包装Date对象  以便为以后预定功能添加属性
 							dayobject.day = d2;
 							_this.days.push(dayobject); //将日期放入data 中的days数组 供页面渲染使用
-							console.log(JSON.stringify(_this.days))
 						}
 
 						//其他周
@@ -252,8 +251,6 @@
 							var dayobject = {};
 							dayobject.day = d2;
 							_this.days.push(dayobject);
-							console.log(JSON.stringify(_this.days))
-							
 						}
 
 						_this.$nextTick(function() {
