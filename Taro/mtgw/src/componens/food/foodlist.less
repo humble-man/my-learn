@@ -1,0 +1,37 @@
+.foodlist {
+    padding: 0 10PX;
+    flex:1;    
+    .cate_title{
+        font-size: 18PX;
+        font-weight: bold;
+    }
+    .foodlist_item {
+        position: relative;
+        display: flex;
+        margin-bottom: 10PX;
+        flex: 1;
+        .item_img {
+            width: 80PX;
+            height: 80PX;
+        }
+        .item_infos {
+            display: flex;
+            height: 80PX;
+            flex-direction: column;
+            justify-content: space-between;
+            padding-left: 10PX;
+            .item_title{
+                font-size: 15PX;
+                font-weight: bold;
+            }
+            .item_solid{
+                font-size: 14PX;
+                color: #a1a1a1;
+            }
+            .item_price {
+                color: red;
+                font-size: 14PX;
+            }
+        }
+    }
+}
