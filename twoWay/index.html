@@ -10,6 +10,7 @@
       <h2>{{title}}</h2>
       <h2>{{name}}</h2>
       <input v-model="name">
+      <button v-on:click="change">点击改变标题</button>
     </div>
   </body>
   <script src="js/myVue.js"></script>
@@ -20,8 +21,13 @@
     new MyVue({
       el: "#app",
       data: {
-        title: "hello world",
-        name:'xudaocong'
+        title: "输入东西试试吧",
+        name:''
+      },
+      methods:{
+        change(){
+          this.data.title = '双向绑定实现原理'
+        }
       }
     });
   </script>

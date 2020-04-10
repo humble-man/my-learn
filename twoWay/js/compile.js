@@ -46,10 +46,8 @@ Compile.prototype = {
       var reg = /\{\{(.*)\}\}/;
       var text = node.textContent;
       if (this.isTextNode(node) && reg.test(text)) {
-        console.log("---文本节点---");
         this.compileTextNode(node, reg.exec(text)[1]);
       } else if (this.isElementNode(node)) {
-        console.log("---元素节点---");
         this.compileElNode(node);
       }
       if (node.childNodes && node.childNodes.length) {
@@ -69,27 +67,36 @@ Compile.prototype = {
         var commandName = attrName.substring(2);
         // 判断指令为v-on 或者 v-model 执行对应的解析
         if (this.isEventCommand(commandName)) {
+          this.compileOn(node, this.vm, field);
         } else {
           // v-model 指令
-          this.compileModel(node, this.vm, field, commandName);
+          this.compileModel(node, this.vm, field);
         }
         // node.removeAttribute(attrName);
       }
     });
   },
+  // 解析v-on指令节点
+  compileOn(node, vm, fnName) {
+    var eventType = "click";
+    var fn = vm.methods && vm.methods[fnName];
+    if (eventType && fn) {
+      node.addEventListener(eventType, fn.bind(vm), false);
+    }
+  },
   // 解析v-model指令节点
-  compileModel(node, vm, field, commandName) {
-    var value = this.vm.data[field];
+  compileModel(node, vm, field) {
+    var value = vm.data[field];
     this.updateModelVal(node, value);
-    new Watcher(this.vm, field, (val) => {
+    new Watcher(vm, field, (val) => {
       this.updateModelVal(node, val);
     });
-    node.addEventListener("input", (e)=>{
+    node.addEventListener("input", (e) => {
       var newValue = e.target.value;
       if (value === newValue) {
         return;
       }
-      this.vm.data[field] = newValue;
+      vm.data[field] = newValue;
       value = newValue;
     });
   },
