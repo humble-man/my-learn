@@ -86,7 +86,7 @@ Compile.prototype = {
   },
   // 解析v-model指令节点
   compileModel(node, vm, field) {
-    var value = vm.data[field];
+    var value = vm[field];
     this.updateModelVal(node, value);
     new Watcher(vm, field, (val) => {
       this.updateModelVal(node, val);
@@ -96,7 +96,7 @@ Compile.prototype = {
       if (value === newValue) {
         return;
       }
-      vm.data[field] = newValue;
+      vm[field] = newValue;
       value = newValue;
     });
   },
@@ -106,7 +106,11 @@ Compile.prototype = {
   },
   // 解析文本节点
   compileTextNode(node, field) {
-    var initText = this.vm.data[field];
+    var fieldArr = field.split('.')
+    var initText = this.vm;
+    fieldArr.forEach(key=>{
+      initText = initText[key];
+    })
     this.updataText(node, initText);
     new Watcher(this.vm, field, (val) => {
       this.updataText(node, val);

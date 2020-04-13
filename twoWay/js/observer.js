@@ -44,8 +44,6 @@ function observe(value) {
   return new Observer(value);
 };
 
-
-
 // 订阅者容器
 function Dep(){
     this.watchers = [];

@@ -9,6 +9,7 @@
     <div id="app">
       <h2>{{title}}</h2>
       <h2>{{name}}</h2>
+      <h2>{{shop.id}}</h2>
       <input v-model="name">
       <button v-on:click="change">点击改变标题</button>
     </div>
@@ -22,11 +23,15 @@
       el: "#app",
       data: {
         title: "输入东西试试吧",
-        name:''
+        name:'',
+        shop:{
+          id:2
+        }
       },
       methods:{
         change(){
-          this.data.title = '双向绑定实现原理'
+          this.title = '双向绑定实现原理';
+          this.shop.id = 3;
         }
       }
     });
