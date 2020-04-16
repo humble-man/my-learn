@@ -68,13 +68,28 @@ Compile.prototype = {
         // 判断指令为v-on 或者 v-model 执行对应的解析
         if (this.isEventCommand(commandName)) {
           this.compileOn(node, this.vm, field);
-        } else {
+        } else if (this.isModelCommand(commandName)) {
           // v-model 指令
           this.compileModel(node, this.vm, field);
+        } else if (this.isHtmlCommand(commandName)) {
+          // v-model 指令
+          this.compileHtml(node, this.vm, field);
         }
         // node.removeAttribute(attrName);
       }
     });
+  },
+  // 解析v-html
+  compileHtml(node,vm,field){
+    var value = vm[field];
+    this.updataHtmlVal(node,value);
+    new Watcher(vm,field,(val)=>{
+      this.updataHtmlVal(node,val)
+    })
+  },
+  // 更新html的值
+  updataHtmlVal(node,val){
+    node.innerHTML = typeof val == "undefined" ? "您没有绑定v-html值" : val;
   },
   // 解析v-on指令节点
   compileOn(node, vm, fnName) {
@@ -106,11 +121,11 @@ Compile.prototype = {
   },
   // 解析文本节点
   compileTextNode(node, field) {
-    var fieldArr = field.split('.')
+    var fieldArr = field.split(".");
     var initText = this.vm;
-    fieldArr.forEach(key=>{
+    fieldArr.forEach((key) => {
       initText = initText[key];
-    })
+    });
     this.updataText(node, initText);
     new Watcher(this.vm, field, (val) => {
       this.updataText(node, val);
@@ -137,7 +152,11 @@ Compile.prototype = {
     return name.indexOf("on:") == 0;
   },
   // 判断是否为v-model指令
-  isModelCommand() {
-    return attr.indexOf("model") == 0;
+  isModelCommand(name) {
+    return name.indexOf("model") == 0;
   },
+  // 判断是否为v-model指令
+  isHtmlCommand(name) {
+    return name.indexOf("html") == 0;
+  }
 };

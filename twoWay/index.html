@@ -3,14 +3,24 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>双向绑定实现</title>
+    <title>Document</title>
+    <style>
+      input{
+        display: block;
+        margin-bottom: 10px;
+      }
+    </style>
   </head>
   <body>
     <div id="app">
       <h2>{{title}}</h2>
       <h2>{{name}}</h2>
       <h2>{{shop.id}}</h2>
+      <h2>{{shop.obj.test}}</h2>
+      <div v-html="html"></div>
+      <input v-model="title">
       <input v-model="name">
+      <input v-model="html">
       <button v-on:click="change">点击改变标题</button>
     </div>
   </body>
@@ -22,16 +32,20 @@
     new MyVue({
       el: "#app",
       data: {
-        title: "输入东西试试吧",
-        name:'',
+        title: "title",
+        name:'name',
         shop:{
-          id:2
-        }
+          id:'双层',
+          obj:{
+            test:'三层'
+          }
+        },
+        html:'<h1>测试v-html指令</h1>'
       },
       methods:{
         change(){
-          this.title = '双向绑定实现原理';
-          this.shop.id = 3;
+          this.shop.id = '改变双层';
+          this.shop.obj.test = '改变三层';
         }
       }
     });
